@@ -40,7 +40,7 @@ function OptionButton({ icon: Icon, label }: OptionButtonProps) {
   return (
     <button
       className="border-border bg-muted hover:bg-accent hover:text-accent-foreground flex h-32 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border transition-all"
-      onClick={() => navigate(`/registrar/${label.toLowerCase()}`)}
+      onClick={() => navigate(`/registro/${label.toLowerCase()}`)}
     >
       <Icon className="size-8" />
       <span className="font-semibold">{label}</span>
