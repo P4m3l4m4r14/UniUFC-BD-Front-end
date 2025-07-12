@@ -11,6 +11,8 @@ import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { toast } from 'sonner'
+import { signInService } from '@/services/auth/sign-in-service'
 
 const signInFormSchema = z.object({
   register: z
@@ -34,8 +36,20 @@ export function SignIn() {
     resolver: zodResolver(signInFormSchema),
   })
 
-  const handleSignIn = (data: SignInFormData) => {
-    console.log('Form Data:', data)
+  const handleSignIn = async ({ password, register }: SignInFormData) => {
+    try {
+      await signInService({
+        code: register,
+        password,
+      })
+
+      toast.success('Login realizado com sucesso!')
+    } catch (error) {
+      console.error('Erro ao fazer login:', error)
+      toast.error(
+        'Não foi possível realizar o login. Verifique suas credenciais e tente novamente.',
+      )
+    }
   }
 
   return (
