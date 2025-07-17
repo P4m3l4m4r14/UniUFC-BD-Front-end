@@ -1,22 +1,28 @@
 import { Logo } from '@/assets/logo'
 import { ThreeDMarquee } from '@/components/ui/3d-marquee'
 import { Outlet } from 'react-router'
+import marcelo1 from '@/assets/marcelo/marcelo1.jpg'
+import marcelo2 from '@/assets/marcelo/marcelo2.jpg'
+import marcelo3 from '@/assets/marcelo/marcelo3.jpg'
+import marcelo4 from '@/assets/marcelo/marcelo4.jpg'
+import marcelo5 from '@/assets/marcelo/marcelo5.jpg'
 
 const images = [
   'https://assets.aceternity.com/cloudinary_bkp/3d-card.png',
   'https://assets.aceternity.com/animated-modal.png',
   'https://assets.aceternity.com/animated-testimonials.webp',
   'https://assets.aceternity.com/cloudinary_bkp/Tooltip_luwy44.png',
-  'https://assets.aceternity.com/github-globe.png',
-  'https://assets.aceternity.com/glare-card.png',
-  'https://assets.aceternity.com/layout-grid.png',
-  'https://assets.aceternity.com/flip-text.png',
-  'https://assets.aceternity.com/hero-highlight.png',
+  marcelo1,
+  marcelo2,
+  marcelo3,
+  marcelo4,
+
   'https://assets.aceternity.com/carousel.webp',
   'https://assets.aceternity.com/placeholders-and-vanish-input.png',
   'https://assets.aceternity.com/shooting-stars-and-stars-background.png',
   'https://assets.aceternity.com/signup-form.png',
   'https://assets.aceternity.com/cloudinary_bkp/stars_sxle3d.png',
+  marcelo5,
   'https://assets.aceternity.com/spotlight-new.webp',
   'https://assets.aceternity.com/cloudinary_bkp/Spotlight_ar5jpr.png',
   'https://assets.aceternity.com/cloudinary_bkp/Parallax_Scroll_pzlatw_anfkh7.png',

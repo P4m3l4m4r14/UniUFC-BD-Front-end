@@ -12,10 +12,12 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
-import { signInService } from '@/services/auth/sign-in-service'
+import { useUser } from '@/hooks/contexts/use-user'
+import { useNavigate } from 'react-router'
+import { useEffect } from 'react'
 
 const signInFormSchema = z.object({
-  register: z
+  username: z
     .string({
       required_error: 'A matrícula é obrigatória',
     })
@@ -32,18 +34,24 @@ const signInFormSchema = z.object({
 type SignInFormData = z.infer<typeof signInFormSchema>
 
 export function SignIn() {
+  const navigate = useNavigate()
+
+  const { signIn, user, isUserLoading } = useUser()
+
   const form = useForm<SignInFormData>({
     resolver: zodResolver(signInFormSchema),
   })
 
-  const handleSignIn = async ({ password, register }: SignInFormData) => {
+  const handleSignIn = async ({ password, username }: SignInFormData) => {
     try {
-      await signInService({
-        code: register,
+      const userData = await signIn({
+        code: username,
         password,
       })
 
       toast.success('Login realizado com sucesso!')
+
+      navigate(`/${userData.role.toLowerCase()}`)
     } catch (error) {
       console.error('Erro ao fazer login:', error)
       toast.error(
@@ -51,6 +59,12 @@ export function SignIn() {
       )
     }
   }
+
+  useEffect(() => {
+    if (!isUserLoading && user) {
+      navigate(`/${user.role.toLowerCase()}`)
+    }
+  }, [navigate, user, isUserLoading])
 
   return (
     <section className="w-full">
@@ -65,12 +79,12 @@ export function SignIn() {
         >
           <FormField
             control={form.control}
-            name="register"
+            name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Matrícula</FormLabel>
+                <FormLabel>Nome de Usuário</FormLabel>
                 <FormControl>
-                  <Input placeholder="Digite sua matrícula" {...field} />
+                  <Input placeholder="Ex: mariasilva" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -83,11 +97,7 @@ export function SignIn() {
               <FormItem>
                 <FormLabel>Senha</FormLabel>
                 <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Digite sua senha"
-                    {...field}
-                  />
+                  <Input type="password" placeholder="Ex: 123456" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -96,9 +106,6 @@ export function SignIn() {
 
           <fieldset className="flex w-full flex-col gap-1">
             <Button className="w-full">Entrar</Button>
-            <Button className="w-full" variant="ghost" type="button">
-              Não possui uma conta? Cadastre-se
-            </Button>
           </fieldset>
         </form>
       </Form>

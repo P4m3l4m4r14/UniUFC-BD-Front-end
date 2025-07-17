@@ -1,3 +1,4 @@
+import type { Role } from '@/types/user'
 import { api } from '../api'
 
 export type SignInServiceRequest = {
@@ -5,10 +6,24 @@ export type SignInServiceRequest = {
   password: string
 }
 
+export type SignInServiceResponse = {
+  token: string
+  username: string
+  role: Role
+}
+
 export async function signInService({ code, password }: SignInServiceRequest) {
-  const response = await api.post('/login', {
-    code,
-    password,
-  })
-  return response.data
+  const { data } = await api.post<SignInServiceResponse>(
+    '/login',
+    {
+      code,
+      password,
+    },
+    {
+      headers: {
+        Authorization: null,
+      },
+    },
+  )
+  return data
 }
