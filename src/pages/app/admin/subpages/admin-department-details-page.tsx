@@ -3,6 +3,8 @@ import { findDepartmentByCode } from '@/services/admin/departments/find-departme
 import { useQuery } from '@tanstack/react-query'
 import { Pencil, Trash } from 'lucide-react'
 import { useParams } from 'react-router'
+import { TeacherCard } from '../components/teacher-card'
+import { CreateTeacherInDepartmentDialog } from '@/components/dialogs/create-teacher-in-department-dialog'
 
 export function AdminDepartmentDetailsPage() {
   const { departmentId } = useParams<{ departmentId: string }>()
@@ -33,7 +35,17 @@ export function AdminDepartmentDetailsPage() {
       </div>
 
       <div className="flex w-full flex-col gap-4">
-        <h2 className="font-heading text-xl font-semibold">Professores</h2>
+        <div className="flex w-full items-center justify-between">
+          <h2 className="font-heading text-xl font-semibold">Professores</h2>
+          {department && (
+            <CreateTeacherInDepartmentDialog department={department} />
+          )}
+        </div>
+        <div>
+          {department?.teachers.map((teacher) => (
+            <TeacherCard key={teacher.id} teacher={teacher} />
+          ))}
+        </div>
       </div>
     </>
   )

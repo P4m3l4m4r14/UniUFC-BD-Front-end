@@ -1,6 +1,6 @@
 'use client'
 
-import { Calendar1 } from 'lucide-react'
+import { CalendarIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -29,10 +29,8 @@ export function DatePicker({ date, onDateChange }: DatePickerProps) {
           variant="outline"
           className="w-full justify-between font-normal"
         >
-          {selectedDate
-            ? selectedDate.toLocaleDateString()
-            : 'Selecione uma data'}
-          <Calendar1 />
+          {selectedDate ? selectedDate.toLocaleDateString() : 'Pegue uma data'}
+          <CalendarIcon />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto overflow-hidden p-0" align="start">
