@@ -5,9 +5,9 @@ export type Student = {
   name: string
   address: string
   admissionYear: string
-  previousCourses: string[]
-  advisorId: number
-  advisorName: string
+  previousCourses: string[] | null
+  advisorId: number | null
+  advisorName: string | null
   courseName: string
   subjectsName: string[]
   phones: Phone[]

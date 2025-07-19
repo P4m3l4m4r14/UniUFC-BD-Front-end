@@ -16,6 +16,7 @@ import { AdminEmployeesPage } from '@/pages/app/admin/subpages/admin-employees-p
 import { AdminCoursesPage } from '@/pages/app/admin/subpages/admin-courses-page'
 import { AdminCourseDetailsPage } from '@/pages/app/admin/subpages/admin-course-details-page'
 import { AdminStudentsPage } from '@/pages/app/admin/subpages/admin-student-page'
+import { AdminStudentDetailsPage } from '@/pages/app/admin/subpages/admin-student-details-page'
 
 export const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ export const router = createBrowserRouter([
           {
             path: '/admin/students',
             element: <AdminStudentsPage />,
+          },
+          {
+            path: '/admin/students/:studentId',
+            element: <AdminStudentDetailsPage />,
           },
           {
             path: '/admin/teachers',
