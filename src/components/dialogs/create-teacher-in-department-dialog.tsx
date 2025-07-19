@@ -29,10 +29,12 @@ import { withMask } from 'use-mask-input'
 import type { Department } from '@/types/department'
 import { TagInput } from '../comp-56'
 import type { Tag } from 'emblor'
+import { createTeacherService } from '@/services/admin/teacher/create-teacher-service'
 
 const createTeacherSchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório'),
   username: z.string().min(1, 'Nome de usuário é obrigatório'),
+  password: z.string().min(1, 'Senha é obrigatória'),
   birthDate: z.string({
     required_error: 'Data de nascimento é obrigatória',
   }),
@@ -57,6 +59,7 @@ type CreateTeacherInDepartmentDialogProps = {
 export function CreateTeacherInDepartmentDialog({
   department,
 }: CreateTeacherInDepartmentDialogProps) {
+  const [emails, setEmails] = useState<Tag[]>([])
   const [phones, setPhones] = useState<Tag[]>([])
   const [isOpen, setIsOpen] = useState(false)
 
@@ -68,9 +71,26 @@ export function CreateTeacherInDepartmentDialog({
   })
 
   const handleCreateTeacher = useCallback(
-    async ({ name }: CreateTeacherFormData) => {
+    async ({
+      name,
+      birthDate,
+      cpf,
+      hireDate,
+      password,
+      username,
+    }: CreateTeacherFormData) => {
       try {
-        // await createTeacherService()
+        await createTeacherService({
+          name,
+          birthDate,
+          cpf,
+          hireDate,
+          password,
+          username,
+          departmentId: department.code,
+          phones: phones.map((tag) => tag.text),
+          emails: emails.map((tag) => tag.text),
+        })
 
         queryClient.invalidateQueries({
           queryKey: ['departments'],
@@ -79,10 +99,10 @@ export function CreateTeacherInDepartmentDialog({
         setIsOpen(false)
         form.reset()
       } catch (error) {
-        console.error('Erro ao criar departamento:', error)
+        console.error('Não foi possível criar o professor :(', error)
       }
     },
-    [form],
+    [form, department, emails, phones],
   )
 
   return (
@@ -107,35 +127,50 @@ export function CreateTeacherInDepartmentDialog({
               id="create-department-form"
               onSubmit={form.handleSubmit(handleCreateTeacher)}
             >
+              <div className="flex w-full gap-2">
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Nome de Usuário</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ex: João da Silva" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Nome Completo</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ex: João da Silva" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormItem>
+                <FormLabel>Emails</FormLabel>
+                <FormControl>
+                  <TagInput
+                    tags={emails}
+                    onTagsChange={setEmails}
+                    placeholder="Adicione um email"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+
               <FormField
                 control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nome de Usuário</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ex: João da Silva" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nome Completo</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ex: João da Silva" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="name"
+                name="password"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Senha</FormLabel>

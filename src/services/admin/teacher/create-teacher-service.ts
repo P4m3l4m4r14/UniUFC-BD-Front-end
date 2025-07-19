@@ -1,32 +1,41 @@
 import { api } from '@/services/api'
-import type { Phone } from '@/types/phone'
 
 type CreateTeacherServiceRequest = {
   name: string
-  email: string[]
+  username: string
+  emails: string[]
+  password: string
   birthDate: string
   hireDate: string
   cpf: string
-  phones: Pick<Phone, 'number'>[]
+  phones: string[]
   departmentId: number
 }
 
 export async function createTeacherService({
   name,
-  email,
+  emails,
   birthDate,
   hireDate,
   cpf,
   phones,
   departmentId,
+  password,
+  username,
 }: CreateTeacherServiceRequest) {
+  const phonesNumbers = phones.map((phone) => ({
+    number: phone,
+  }))
+
   const { data } = await api.post('/teachers', {
     name,
-    email,
+    emails,
     birthDate,
     hireDate,
     cpf,
-    phones,
+    phones: phonesNumbers,
+    password,
+    login: username,
     departmentId,
   })
 
