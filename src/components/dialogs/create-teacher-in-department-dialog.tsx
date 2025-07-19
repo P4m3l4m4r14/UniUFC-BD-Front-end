@@ -27,7 +27,7 @@ import { DatePicker } from '../date-picker'
 
 import { withMask } from 'use-mask-input'
 import type { Department } from '@/types/department'
-import { TagInput } from '../comp-56'
+import { TagInput } from '../tag-input'
 import type { Tag } from 'emblor'
 import { createTeacherService } from '@/services/admin/teacher/create-teacher-service'
 
@@ -93,7 +93,7 @@ export function CreateTeacherInDepartmentDialog({
         })
 
         queryClient.invalidateQueries({
-          queryKey: ['departments'],
+          queryKey: ['department', department.code],
         })
 
         setIsOpen(false)

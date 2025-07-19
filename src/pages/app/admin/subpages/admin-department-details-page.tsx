@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { findDepartmentByCode } from '@/services/admin/departments/find-department-by-code'
 import { useQuery } from '@tanstack/react-query'
-import { Pencil, Trash } from 'lucide-react'
+import { Trash } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router'
 import { TeacherCard } from '../components/teacher-card'
 import { CreateTeacherInDepartmentDialog } from '@/components/dialogs/create-teacher-in-department-dialog'
@@ -10,14 +10,23 @@ import { useCallback } from 'react'
 import { toast } from 'sonner'
 import { deleteDepartmentService } from '@/services/admin/departments/delete-department-service'
 import { CourseCard } from '../components/course-card'
+import { CreateCourseInDepartmentDialog } from '@/components/dialogs/create-course-in-department'
+import { findEmployeesByDepartmentCodeService } from '@/services/admin/employee/get-employee-by-department-code'
+import { CardSkeleton } from '../components/card-skeleton'
 
 export function AdminDepartmentDetailsPage() {
   const navigate = useNavigate()
   const { departmentId } = useParams<{ departmentId: string }>()
 
-  const { data: department } = useQuery({
+  const { data: department, isPending: isDepartmentPending } = useQuery({
     queryKey: ['department', departmentId],
     queryFn: () => findDepartmentByCode({ code: Number(departmentId) }),
+  })
+
+  const { data: employee } = useQuery({
+    queryKey: ['department', departmentId, 'employee'],
+    queryFn: () =>
+      findEmployeesByDepartmentCodeService({ code: Number(departmentId) }),
   })
 
   const handleDeleteDepartment = useCallback(async () => {
@@ -43,10 +52,6 @@ export function AdminDepartmentDetailsPage() {
           </h1>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline">
-            <Pencil className="text-muted-foreground size-4" />
-            Editar
-          </Button>
           <AlertDialog
             actionText="Excluir"
             cancelText="Cancelar"
@@ -69,22 +74,47 @@ export function AdminDepartmentDetailsPage() {
           )}
         </div>
         <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
-          {department?.teachers.map((teacher) => (
-            <TeacherCard key={teacher.id} teacher={teacher} />
-          ))}
+          {isDepartmentPending
+            ? Array.from({ length: 4 }).map((_, index) => (
+                <CardSkeleton key={index} />
+              ))
+            : department?.teachers.map((teacher) => (
+                <TeacherCard key={teacher.id} teacher={teacher} />
+              ))}
         </div>
       </div>
       <div className="flex w-full flex-col gap-2">
         <div className="flex w-full items-center justify-between">
           <h2 className="font-heading text-xl font-semibold">Cursos</h2>
           {department && (
-            <CreateTeacherInDepartmentDialog department={department} />
+            <CreateCourseInDepartmentDialog department={department} />
           )}
         </div>
         <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
-          {department?.courses.map((course) => (
-            <CourseCard key={course.code} course={course} />
-          ))}
+          {isDepartmentPending
+            ? Array.from({ length: 4 }).map((_, index) => (
+                <CardSkeleton key={index} />
+              ))
+            : department?.courses.map((course) => (
+                <CourseCard key={course.code} course={course} />
+              ))}
+        </div>
+      </div>
+      <div className="flex w-full flex-col gap-2">
+        <div className="flex w-full items-center justify-between">
+          <h2 className="font-heading text-xl font-semibold">Empregados</h2>
+          {department && (
+            <CreateCourseInDepartmentDialog department={department} />
+          )}
+        </div>
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
+          {isDepartmentPending
+            ? Array.from({ length: 4 }).map((_, index) => (
+                <CardSkeleton key={index} />
+              ))
+            : department?.courses.map((course) => (
+                <CourseCard key={course.code} course={course} />
+              ))}
         </div>
       </div>
     </>

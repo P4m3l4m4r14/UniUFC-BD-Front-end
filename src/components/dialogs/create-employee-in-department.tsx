@@ -24,43 +24,49 @@ import { Input } from '../ui/input'
 import { useCallback, useState } from 'react'
 
 import { queryClient } from '@/lib/query-client'
-import { createCourseService } from '@/services/admin/course/create-course-service'
 import type { Department } from '@/types/department'
-import NumberInput from '../number-input'
+import { createEmployeeService } from '@/services/admin/employee/create-employee-service'
 
-const createCourseInDepartmentSchema = z.object({
+const createEmployeeInDepartmentSchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório'),
-  minCredits: z.number().min(1, 'Créditos mínimos são obrigatórios'),
+  username: z.string().min(1, 'Nome de usuário é obrigatório'),
+  password: z.string().min(1, 'Senha é obrigatória'),
 })
 
-type CreateCourseInDepartmentFormData = z.infer<
-  typeof createCourseInDepartmentSchema
+type CreateEmployeeInDepartmentFormData = z.infer<
+  typeof createEmployeeInDepartmentSchema
 >
 
-type CreateCourseInDepartmentDialogProps = {
+type CreateEmployeeInDepartmentDialogProps = {
   department: Department
 }
 
-export function CreateCourseInDepartmentDialog({
+export function CreateEmployeeInDepartmentDialog({
   department,
-}: CreateCourseInDepartmentDialogProps) {
+}: CreateEmployeeInDepartmentDialogProps) {
   const [isOpen, setIsOpen] = useState(false)
 
-  const form = useForm<CreateCourseInDepartmentFormData>({
-    resolver: zodResolver(createCourseInDepartmentSchema),
+  const form = useForm<CreateEmployeeInDepartmentFormData>({
+    resolver: zodResolver(createEmployeeInDepartmentSchema),
     defaultValues: {
       name: '',
-      minCredits: 0,
+      username: '',
+      password: '',
     },
   })
 
-  const handleCreateCourseInDepartment = useCallback(
-    async ({ name, minCredits }: CreateCourseInDepartmentFormData) => {
+  const handleCreateEmployeeInDepartment = useCallback(
+    async ({
+      name,
+      username,
+      password,
+    }: CreateEmployeeInDepartmentFormData) => {
       try {
-        await createCourseService({
+        await createEmployeeService({
           name,
-          minCredits,
-          departmentId: department.code,
+          username,
+          password,
+          idDepartment: department.code,
         })
 
         queryClient.invalidateQueries({
@@ -80,13 +86,13 @@ export function CreateCourseInDepartmentDialog({
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <form>
         <DialogTrigger asChild>
-          <Button>Criar Curso</Button>
+          <Button>Criar Empregado</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Criar Curso</DialogTitle>
+            <DialogTitle>Criar Empregado</DialogTitle>
             <DialogDescription>
-              Preencha os detalhes do novo curso no departamento{' '}
+              Preencha os detalhes do novo empregado no departamento{' '}
               {department.name}.
             </DialogDescription>
           </DialogHeader>
@@ -94,14 +100,14 @@ export function CreateCourseInDepartmentDialog({
             <form
               className="flex w-full flex-col gap-4"
               id="create-department-form"
-              onSubmit={form.handleSubmit(handleCreateCourseInDepartment)}
+              onSubmit={form.handleSubmit(handleCreateEmployeeInDepartment)}
             >
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nome do Curso</FormLabel>
+                    <FormLabel>Nome do Empregado</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Ex: Introdução ao Direito"
@@ -114,12 +120,42 @@ export function CreateCourseInDepartmentDialog({
               />
               <FormField
                 control={form.control}
-                name="minCredits"
-                render={({ field: { onChange, value } }) => (
+                name="name"
+                render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Créditos Mínimos</FormLabel>
+                    <FormLabel>Nome do Empregado</FormLabel>
                     <FormControl>
-                      <NumberInput onChange={onChange} value={value} />
+                      <Input placeholder="Ex: Francisco da Silva" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nome de Usuário</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ex: f.silva" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Senha</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Ex: ********"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
