@@ -55,6 +55,7 @@ type CreatePostgraduateStudentFormData = z.infer<
 export function CreatePostgraduateStudentDialog() {
   const [isOpen, setIsOpen] = useState(false)
   const [phones, setPhones] = useState<Tag[]>([])
+  const [previousCourses, setPreviousCourses] = useState<Tag[]>([])
 
   const form = useForm<CreatePostgraduateStudentFormData>({
     resolver: zodResolver(createPostgraduateStudentSchema),
@@ -224,6 +225,17 @@ export function CreatePostgraduateStudentDialog() {
                     tags={phones}
                     onTagsChange={setPhones}
                     placeholder="Adicione um telefone"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+              <FormItem>
+                <FormLabel>Cursos Anteriores</FormLabel>
+                <FormControl>
+                  <TagInput
+                    tags={previousCourses}
+                    onTagsChange={setPreviousCourses}
+                    placeholder="Adicione um curso"
                   />
                 </FormControl>
                 <FormMessage />
