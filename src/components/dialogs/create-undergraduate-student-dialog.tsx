@@ -104,6 +104,8 @@ export function CreateUndergraduateStudentDialog() {
     [form, phones],
   )
 
+  console.log(form.formState.errors)
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <form>
@@ -120,7 +122,7 @@ export function CreateUndergraduateStudentDialog() {
           <Form {...form}>
             <form
               className="flex w-full flex-col gap-4"
-              id="create-department-form"
+              id="create-undergraduate-student-form"
               onSubmit={form.handleSubmit(handleCreateUndergraduateStudent)}
             >
               <FormField
@@ -164,36 +166,39 @@ export function CreateUndergraduateStudentDialog() {
                   )}
                 />
               </div>
-              <FormField
-                control={form.control}
-                name="admissionYear"
-                render={({ field: { onChange, value, ...rest } }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Ano de Admissão</FormLabel>
-                    <FormControl>
-                      <DatePicker
-                        date={value}
-                        onDateChange={onChange}
-                        {...rest}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="address"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Endereço</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ex: Rua A, 123" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+
+              <div className="flex gap-1">
+                <FormField
+                  control={form.control}
+                  name="admissionYear"
+                  render={({ field: { onChange, value, ...rest } }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Ano de Admissão</FormLabel>
+                      <FormControl>
+                        <DatePicker
+                          date={value}
+                          onDateChange={onChange}
+                          {...rest}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="address"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Endereço</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ex: Rua A, 123" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <FormItem>
                 <FormLabel>Telefones</FormLabel>
                 <FormControl>
@@ -205,6 +210,23 @@ export function CreateUndergraduateStudentDialog() {
                 </FormControl>
                 <FormMessage />
               </FormItem>
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Senha</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Ex: ********"
+                        type="password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </form>
           </Form>
           <DialogFooter>
@@ -213,7 +235,7 @@ export function CreateUndergraduateStudentDialog() {
             </DialogClose>
             <Button
               type="submit"
-              form="create-department-form"
+              form="create-undergraduate-student-form"
               isLoading={form.formState.isSubmitting}
             >
               Criar

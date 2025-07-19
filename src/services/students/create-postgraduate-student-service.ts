@@ -24,7 +24,7 @@ export async function createPostgraduateStudentService({
   password,
   username,
 }: CreatePostgraduateStudentServiceRequest) {
-  await api.post('/students', {
+  await api.post('/students/postgraduate', {
     name,
     address,
     courseCode,

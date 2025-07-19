@@ -22,7 +22,7 @@ export async function createUndergraduateStudentService({
   password,
   username,
 }: CreateUndergraduateStudentServiceRequest) {
-  await api.post('/students', {
+  await api.post('/students/undergraduate', {
     name,
     address,
     courseCode,
