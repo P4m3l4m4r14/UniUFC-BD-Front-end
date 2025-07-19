@@ -31,7 +31,7 @@ export function StudentInformationDialog({
         <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Informações do Aluno</DialogTitle>
+            <DialogTitle>Informações do Estudante</DialogTitle>
           </DialogHeader>
 
           <div className="flex w-full flex-col gap-1">

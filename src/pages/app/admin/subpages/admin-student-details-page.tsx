@@ -10,13 +10,15 @@ import { toast } from 'sonner'
 import { findStudentByCodeService } from '@/services/students/find-student-by-code-service'
 import { deleteStudentService } from '@/services/students/delete-student-service'
 import { StudentInformationDialog } from '@/components/dialogs/student-information-dialog'
+import { CardSkeleton } from '../components/card-skeleton'
+import { SubjectNameCard } from '../components/subject-name-card'
 
 export function AdminStudentDetailsPage() {
   const navigate = useNavigate()
   const { copyToClipboard } = useClipboard()
   const { studentId } = useParams<{ studentId: string }>()
 
-  const { data: student } = useQuery({
+  const { data: student, isPending: isStudentPending } = useQuery({
     queryKey: ['student', studentId],
     queryFn: () => findStudentByCodeService(studentId!),
   })
@@ -62,6 +64,7 @@ export function AdminStudentDetailsPage() {
             )}
           </div>
         </div>
+
         <div className="flex items-center gap-2">
           <AlertDialog
             actionText="Excluir"
@@ -74,6 +77,29 @@ export function AdminStudentDetailsPage() {
               <Trash className="text-destructive size-4" />
             </Button>
           </AlertDialog>
+        </div>
+      </div>
+
+      <div className="flex w-full flex-col gap-2">
+        <div className="flex w-full items-center justify-between">
+          <h2 className="font-heading text-xl font-semibold">Disciplinas</h2>
+        </div>
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
+          {isStudentPending ? (
+            Array.from({ length: 4 }).map((_, index) => (
+              <CardSkeleton key={index} />
+            ))
+          ) : student &&
+            student?.subjectsName &&
+            student.subjectsName.length > 0 ? (
+            student?.subjectsName.map((subject) => (
+              <SubjectNameCard key={subject} subjectName={subject} />
+            ))
+          ) : (
+            <div className="text-muted-foreground w-full">
+              Nenhuma disciplina encontrada.
+            </div>
+          )}
         </div>
       </div>
     </>
