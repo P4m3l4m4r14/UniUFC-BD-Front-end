@@ -131,58 +131,62 @@ export function CreatePostgraduateStudentDialog() {
               id="create-department-form"
               onSubmit={form.handleSubmit(handleCreatePostgraduateStudent)}
             >
-              <FormField
-                control={form.control}
-                name="courseCode"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Código do Curso</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ex: 123456" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="advisorId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Código do Orientador</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ex: 123456" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nome do Aluno</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ex: João da Silva" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nome de Usuário</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ex: joaodasilva" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="flex gap-1">
+                <FormField
+                  control={form.control}
+                  name="courseCode"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Código do Curso</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ex: 123456" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="advisorId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Código do Orientador</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ex: 123456" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex gap-1">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nome do Aluno</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ex: João da Silva" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nome de Usuário</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ex: joaodasilva" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <FormField
                 control={form.control}
                 name="admissionYear"
