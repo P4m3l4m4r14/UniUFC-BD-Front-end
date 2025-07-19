@@ -1,21 +1,25 @@
 import { Button } from '@/components/ui/button'
-import { findDepartmentByCode } from '@/services/admin/departments/find-department-by-code'
+import { findDepartmentByCode } from '@/services/departments/find-department-by-code'
 import { useQuery } from '@tanstack/react-query'
-import { Trash } from 'lucide-react'
+import { Copy, Trash } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router'
 import { TeacherCard } from '../components/teacher-card'
 import { CreateTeacherInDepartmentDialog } from '@/components/dialogs/create-teacher-in-department-dialog'
 import AlertDialog from '@/components/alert-dialog'
 import { useCallback } from 'react'
 import { toast } from 'sonner'
-import { deleteDepartmentService } from '@/services/admin/departments/delete-department-service'
+import { deleteDepartmentService } from '@/services/departments/delete-department-service'
 import { CourseCard } from '../components/course-card'
 import { CreateCourseInDepartmentDialog } from '@/components/dialogs/create-course-in-department'
-import { findEmployeesByDepartmentCodeService } from '@/services/admin/employee/get-employee-by-department-code'
 import { CardSkeleton } from '../components/card-skeleton'
+import { CreateEmployeeInDepartmentDialog } from '@/components/dialogs/create-employee-in-department'
+import { findEmployeesByDepartmentCodeService } from '@/services/employee/get-employee-by-department-code'
+import { EmployeeCard } from '../components/employee-card'
+import { useClipboard } from '@/hooks/use-clipboard'
 
 export function AdminDepartmentDetailsPage() {
   const navigate = useNavigate()
+  const { copyToClipboard } = useClipboard()
   const { departmentId } = useParams<{ departmentId: string }>()
 
   const { data: department, isPending: isDepartmentPending } = useQuery({
@@ -23,7 +27,7 @@ export function AdminDepartmentDetailsPage() {
     queryFn: () => findDepartmentByCode({ code: Number(departmentId) }),
   })
 
-  const { data: employee } = useQuery({
+  const { data: employees, isPending: isEmployeePending } = useQuery({
     queryKey: ['department', departmentId, 'employee'],
     queryFn: () =>
       findEmployeesByDepartmentCodeService({ code: Number(departmentId) }),
@@ -50,6 +54,16 @@ export function AdminDepartmentDetailsPage() {
           <h1 className="font-heading text-3xl font-bold">
             {department?.name}
           </h1>
+          {department?.code && (
+            <button
+              className="text-accent-foreground bg-accent border-border flex items-center gap-2 rounded-full border px-2 py-0.5 text-xs leading-tight uppercase"
+              onClick={() => copyToClipboard(department.code.toString())}
+            >
+              <span>Código: {department?.code}</span>
+
+              <Copy className="size-2.5" />
+            </button>
+          )}
         </div>
         <div className="flex items-center gap-2">
           <AlertDialog
@@ -104,16 +118,17 @@ export function AdminDepartmentDetailsPage() {
         <div className="flex w-full items-center justify-between">
           <h2 className="font-heading text-xl font-semibold">Empregados</h2>
           {department && (
-            <CreateCourseInDepartmentDialog department={department} />
+            <CreateEmployeeInDepartmentDialog department={department} />
           )}
         </div>
         <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
-          {isDepartmentPending
+          {isEmployeePending
             ? Array.from({ length: 4 }).map((_, index) => (
                 <CardSkeleton key={index} />
               ))
-            : department?.courses.map((course) => (
-                <CourseCard key={course.code} course={course} />
+            : employees &&
+              employees.map((employee) => (
+                <EmployeeCard key={employee.name} employee={employee} />
               ))}
         </div>
       </div>

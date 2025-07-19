@@ -17,7 +17,7 @@ export async function createEmployeeService({
     idDepartment,
     name,
     password,
-    username,
+    login: username,
   })
 
   return data

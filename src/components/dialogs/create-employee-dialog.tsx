@@ -24,54 +24,50 @@ import { Input } from '../ui/input'
 import { useCallback, useState } from 'react'
 
 import { queryClient } from '@/lib/query-client'
-import type { Department } from '@/types/department'
 import { createEmployeeService } from '@/services/employee/create-employee-service'
 import { toast } from 'sonner'
 
-const createEmployeeInDepartmentSchema = z.object({
+const createEmployeeSchema = z.object({
+  code: z.coerce
+    .number({
+      required_error: 'Código é obrigatório',
+    })
+    .int({
+      message: 'Código deve ser um número inteiro',
+    })
+    .positive('Código deve ser um número positivo'),
   name: z.string().min(1, 'Nome é obrigatório'),
   username: z.string().min(1, 'Nome de usuário é obrigatório'),
   password: z.string().min(1, 'Senha é obrigatória'),
 })
 
-type CreateEmployeeInDepartmentFormData = z.infer<
-  typeof createEmployeeInDepartmentSchema
->
+type CreateEmployeeFormData = z.infer<typeof createEmployeeSchema>
 
-type CreateEmployeeInDepartmentDialogProps = {
-  department: Department
-}
-
-export function CreateEmployeeInDepartmentDialog({
-  department,
-}: CreateEmployeeInDepartmentDialogProps) {
+export function CreateEmployeeDialog() {
   const [isOpen, setIsOpen] = useState(false)
 
-  const form = useForm<CreateEmployeeInDepartmentFormData>({
-    resolver: zodResolver(createEmployeeInDepartmentSchema),
+  const form = useForm<CreateEmployeeFormData>({
+    resolver: zodResolver(createEmployeeSchema),
     defaultValues: {
+      code: 0,
       name: '',
       username: '',
       password: '',
     },
   })
 
-  const handleCreateEmployeeInDepartment = useCallback(
-    async ({
-      name,
-      username,
-      password,
-    }: CreateEmployeeInDepartmentFormData) => {
+  const handleCreateEmployee = useCallback(
+    async ({ name, username, password, code }: CreateEmployeeFormData) => {
       try {
         await createEmployeeService({
           name,
           username,
           password,
-          idDepartment: department.code,
+          idDepartment: code,
         })
 
         await queryClient.refetchQueries({
-          queryKey: ['department', department.code, 'employee'],
+          queryKey: ['department', code, 'employee'],
         })
 
         toast.success('Empregado criado com sucesso.')
@@ -83,7 +79,7 @@ export function CreateEmployeeInDepartmentDialog({
         console.error('Erro ao criar empregado:', error)
       }
     },
-    [form, department.code],
+    [form],
   )
 
   return (
@@ -96,16 +92,28 @@ export function CreateEmployeeInDepartmentDialog({
           <DialogHeader>
             <DialogTitle>Criar Empregado</DialogTitle>
             <DialogDescription>
-              Preencha os detalhes do novo empregado no departamento{' '}
-              {department.name}.
+              Preencha os detalhes do novo empregado.
             </DialogDescription>
           </DialogHeader>
           <Form {...form}>
             <form
               className="flex w-full flex-col gap-4"
               id="create-department-form"
-              onSubmit={form.handleSubmit(handleCreateEmployeeInDepartment)}
+              onSubmit={form.handleSubmit(handleCreateEmployee)}
             >
+              <FormField
+                control={form.control}
+                name="code"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Código do Departamento</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ex: 123456" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="name"

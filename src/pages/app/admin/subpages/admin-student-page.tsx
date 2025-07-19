@@ -1,7 +1,26 @@
-export function AdminStudentPage() {
+import { CreateUndergraduateStudentDialog } from '@/components/dialogs/create-undergraduate-student-dialog'
+import { findAllStudentsService } from '@/services/students/fint-all-students-service'
+import { useQuery } from '@tanstack/react-query'
+import { StudentCard } from '../components/student-card'
+
+export function AdminStudentsPage() {
+  const { data: students } = useQuery({
+    queryKey: ['students'],
+    queryFn: () => findAllStudentsService(),
+  })
+
   return (
     <>
-      <h1 className="font-heading text-4xl font-bold">Estudantes</h1>
+      <div className="flex w-full items-center justify-between">
+        <h1 className="font-heading text-4xl font-bold">Cursos</h1>
+
+        <CreateUndergraduateStudentDialog />
+      </div>
+      <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-4">
+        {students?.map((student) => (
+          <StudentCard key={student.code} student={student} />
+        ))}
+      </div>
     </>
   )
 }

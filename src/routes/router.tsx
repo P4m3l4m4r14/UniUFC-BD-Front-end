@@ -7,9 +7,15 @@ import { TeacherPage } from '@/pages/app/teacher'
 import { StudentPage } from '@/pages/app/student'
 import { AdminPage } from '@/pages/app/admin'
 import { EmployeePage } from '@/pages/app/employee'
-import { AdminStudentPage } from '@/pages/app/admin/subpages/admin-student-page'
+
 import { AdminDepartmentsPage } from '@/pages/app/admin/subpages/admin-departments-page'
 import { AdminDepartmentDetailsPage } from '@/pages/app/admin/subpages/admin-department-details-page'
+import { AdminTeacherPage } from '@/pages/app/admin/subpages/admin-teacher-page'
+import { AdminTeacherDetailsPage } from '@/pages/app/admin/subpages/admin-teacher-details-page'
+import { AdminEmployeesPage } from '@/pages/app/admin/subpages/admin-employees-page'
+import { AdminCoursesPage } from '@/pages/app/admin/subpages/admin-courses-page'
+import { AdminCourseDetailsPage } from '@/pages/app/admin/subpages/admin-course-details-page'
+import { AdminStudentsPage } from '@/pages/app/admin/subpages/admin-student-page'
 
 export const router = createBrowserRouter([
   {
@@ -35,7 +41,15 @@ export const router = createBrowserRouter([
         children: [
           {
             path: '/admin/students',
-            element: <AdminStudentPage />,
+            element: <AdminStudentsPage />,
+          },
+          {
+            path: '/admin/teachers',
+            element: <AdminTeacherPage />,
+          },
+          {
+            path: '/admin/teachers/:teacherId',
+            element: <AdminTeacherDetailsPage />,
           },
           {
             path: '/admin/departments',
@@ -44,6 +58,18 @@ export const router = createBrowserRouter([
           {
             path: '/admin/departments/:departmentId',
             element: <AdminDepartmentDetailsPage />,
+          },
+          {
+            path: '/admin/employees',
+            element: <AdminEmployeesPage />,
+          },
+          {
+            path: '/admin/courses',
+            element: <AdminCoursesPage />,
+          },
+          {
+            path: '/admin/courses/:courseId',
+            element: <AdminCourseDetailsPage />,
           },
           {
             path: '/admin/*',

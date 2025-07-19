@@ -1,4 +1,5 @@
 import { api } from '@/services/api'
+import type { Employee } from '@/types/employee'
 
 type FindEmployeesByDepartmentCodeServiceRequest = {
   code: number
@@ -7,7 +8,9 @@ type FindEmployeesByDepartmentCodeServiceRequest = {
 export async function findEmployeesByDepartmentCodeService({
   code,
 }: FindEmployeesByDepartmentCodeServiceRequest) {
-  const { data } = await api.get(`/api/departments/${code}/employees`)
+  const { data } = await api.get<Employee[]>(
+    `/employees/department-employees/${code}`,
+  )
 
   return data
 }

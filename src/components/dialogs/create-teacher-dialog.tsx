@@ -26,12 +26,12 @@ import { queryClient } from '@/lib/query-client'
 import { DatePicker } from '../date-picker'
 
 import { withMask } from 'use-mask-input'
-import type { Department } from '@/types/department'
 import { TagInput } from '../tag-input'
 import type { Tag } from 'emblor'
 import { createTeacherService } from '@/services/teacher/create-teacher-service'
 
 const createTeacherSchema = z.object({
+  code: z.string().min(1, 'Código do departamento é obrigatório'),
   name: z.string().min(1, 'Nome é obrigatório'),
   username: z.string().min(1, 'Nome de usuário é obrigatório'),
   password: z.string().min(1, 'Senha é obrigatória'),
@@ -52,13 +52,7 @@ const createTeacherSchema = z.object({
 
 type CreateTeacherFormData = z.infer<typeof createTeacherSchema>
 
-type CreateTeacherInDepartmentDialogProps = {
-  department: Department
-}
-
-export function CreateTeacherInDepartmentDialog({
-  department,
-}: CreateTeacherInDepartmentDialogProps) {
+export function CreateTeacherDialog() {
   const [emails, setEmails] = useState<Tag[]>([])
   const [phones, setPhones] = useState<Tag[]>([])
   const [isOpen, setIsOpen] = useState(false)
@@ -73,6 +67,7 @@ export function CreateTeacherInDepartmentDialog({
   const handleCreateTeacher = useCallback(
     async ({
       name,
+      code,
       birthDate,
       cpf,
       hireDate,
@@ -87,13 +82,13 @@ export function CreateTeacherInDepartmentDialog({
           hireDate,
           password,
           username,
-          departmentId: department.code,
+          departmentId: Number(code),
           phones: phones.map((tag) => tag.text),
           emails: emails.map((tag) => tag.text),
         })
 
         queryClient.invalidateQueries({
-          queryKey: ['department', department.code],
+          queryKey: ['teachers'],
         })
 
         setIsOpen(false)
@@ -102,7 +97,7 @@ export function CreateTeacherInDepartmentDialog({
         console.error('Não foi possível criar o professor :(', error)
       }
     },
-    [form, department, emails, phones],
+    [form, emails, phones],
   )
 
   return (
@@ -117,8 +112,7 @@ export function CreateTeacherInDepartmentDialog({
           <DialogHeader>
             <DialogTitle>Criar Professor</DialogTitle>
             <DialogDescription>
-              Preencha os detalhes do novo professor no departamento{' '}
-              {department.name}.
+              Preencha os detalhes do novo professor.
             </DialogDescription>
           </DialogHeader>
           <Form {...form}>
@@ -127,6 +121,19 @@ export function CreateTeacherInDepartmentDialog({
               id="create-department-form"
               onSubmit={form.handleSubmit(handleCreateTeacher)}
             >
+              <FormField
+                control={form.control}
+                name="code"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Código do Departamento</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ex: 123456" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <div className="flex w-full gap-2">
                 <FormField
                   control={form.control}

@@ -25,55 +25,55 @@ import { useCallback, useState } from 'react'
 
 import { queryClient } from '@/lib/query-client'
 import { createCourseService } from '@/services/course/create-course-service'
-import type { Department } from '@/types/department'
 import NumberInput from '../number-input'
+import { toast } from 'sonner'
 
-const createCourseInDepartmentSchema = z.object({
+const createCourseSchema = z.object({
+  code: z.coerce
+    .number({
+      invalid_type_error: 'Código deve ser um número',
+    })
+    .min(1, 'Código é obrigatório'),
   name: z.string().min(1, 'Nome é obrigatório'),
   minCredits: z.number().min(1, 'Créditos mínimos são obrigatórios'),
 })
 
-type CreateCourseInDepartmentFormData = z.infer<
-  typeof createCourseInDepartmentSchema
->
+type CreateCourseFormData = z.infer<typeof createCourseSchema>
 
-type CreateCourseInDepartmentDialogProps = {
-  department: Department
-}
-
-export function CreateCourseInDepartmentDialog({
-  department,
-}: CreateCourseInDepartmentDialogProps) {
+export function CreateCourseDialog() {
   const [isOpen, setIsOpen] = useState(false)
 
-  const form = useForm<CreateCourseInDepartmentFormData>({
-    resolver: zodResolver(createCourseInDepartmentSchema),
+  const form = useForm<CreateCourseFormData>({
+    resolver: zodResolver(createCourseSchema),
     defaultValues: {
       name: '',
       minCredits: 0,
     },
   })
 
-  const handleCreateCourseInDepartment = useCallback(
-    async ({ name, minCredits }: CreateCourseInDepartmentFormData) => {
+  const handleCreateCourse = useCallback(
+    async ({ name, minCredits, code }: CreateCourseFormData) => {
       try {
         await createCourseService({
           name,
           minCredits,
-          departmentId: department.code,
+          departmentId: code,
         })
 
-        queryClient.invalidateQueries({
-          queryKey: ['department', department.code],
+        await queryClient.invalidateQueries({
+          queryKey: ['department', code],
         })
+
+        toast.success('Curso criado com sucesso.')
 
         setIsOpen(false)
         form.reset()
       } catch (error) {
-        console.error('Erro ao criar departamento:', error)
+        toast.error('Não foi possível criar curso.')
+        console.error('Erro ao criar curso:', error)
       }
     },
-    [form, department.code],
+    [form],
   )
 
   return (
@@ -86,16 +86,28 @@ export function CreateCourseInDepartmentDialog({
           <DialogHeader>
             <DialogTitle>Criar Curso</DialogTitle>
             <DialogDescription>
-              Preencha os detalhes do novo curso no departamento{' '}
-              {department.name}.
+              Preencha os detalhes do novo curso.
             </DialogDescription>
           </DialogHeader>
           <Form {...form}>
             <form
               className="flex w-full flex-col gap-4"
               id="create-department-form"
-              onSubmit={form.handleSubmit(handleCreateCourseInDepartment)}
+              onSubmit={form.handleSubmit(handleCreateCourse)}
             >
+              <FormField
+                control={form.control}
+                name="code"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Código do Departamento</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ex: 123456" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="name"

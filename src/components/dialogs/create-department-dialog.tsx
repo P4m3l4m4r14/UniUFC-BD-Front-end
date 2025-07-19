@@ -22,7 +22,7 @@ import {
 } from '../ui/form'
 import { Input } from '../ui/input'
 import { useCallback, useState } from 'react'
-import { createDepartmentService } from '@/services/admin/departments/create-department-service'
+import { createDepartmentService } from '@/services/departments/create-department-service'
 import { queryClient } from '@/lib/query-client'
 
 const createDepartmentSchema = z.object({

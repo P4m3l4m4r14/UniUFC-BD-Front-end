@@ -1,5 +1,5 @@
 import { CreateDepartmentDialog } from '@/components/dialogs/create-department-dialog'
-import { findAllDepartmentsService } from '@/services/admin/departments/find-all-departments-service'
+import { findAllDepartmentsService } from '@/services/departments/find-all-departments-service'
 import { useQuery } from '@tanstack/react-query'
 import { DepartmentCard } from '../components/department-card'
 
