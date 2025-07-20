@@ -1,15 +1,16 @@
-import type { Student } from '@/types/students'
+import type { Student, StudentCourse } from '@/types/students'
 import { User } from 'lucide-react'
 import { Link } from 'react-router'
 
 type StudentCardProps = {
-  student: Student
+  student: Student | StudentCourse
+  to?: string
 }
 
-export function StudentCard({ student }: StudentCardProps) {
+export function StudentCard({ student, to }: StudentCardProps) {
   return (
     <Link
-      to={`${student.code}`}
+      to={to || `${student.code}`}
       className="bg-accent/50 border-border group hover:bg-accent/70 h-fit w-full cursor-pointer overflow-hidden rounded-md border transition-colors"
     >
       <div className="bg-primary group-hover:bg-primary/90 flex h-12 w-full items-center justify-center transition-colors">

@@ -15,6 +15,7 @@ import { InfoPill } from '@/components/info-pill'
 import { TeacherCard } from '../components/teacher-card'
 import { getSubjectTypeName } from '@/lib/get-subject-type-name'
 import { CourseCard } from '../components/course-card'
+import { SubjectCard } from '../components/subject-card'
 
 export function AdminSubjectDetailsPage() {
   const navigate = useNavigate()
@@ -52,7 +53,12 @@ export function AdminSubjectDetailsPage() {
                   label="Código"
                   value={subject.code}
                   icon={<Copy />}
-                  onClick={() => copyToClipboard(String(subject.code))}
+                  onClick={() =>
+                    copyToClipboard(
+                      String(subject.code),
+                      'Código da disciplina copiado!',
+                    )
+                  }
                 />
                 <InfoPill label="Créditos" value={subject.credits} />
                 <InfoPill
@@ -94,6 +100,7 @@ export function AdminSubjectDetailsPage() {
           {subject?.course && <CourseCard course={subject?.course} />}
         </div>
       </div>
+
       <div className="flex w-full flex-col gap-2">
         <div className="flex w-full items-center justify-between">
           <h2 className="font-heading text-xl font-semibold">Professores</h2>
@@ -105,11 +112,69 @@ export function AdminSubjectDetailsPage() {
             ))
           ) : subject && subject?.teachers && subject.teachers.length > 0 ? (
             subject?.teachers.map((teacher) => (
-              <TeacherCard key={teacher.id} teacher={teacher} />
+              <TeacherCard
+                to={`/admin/teachers/${teacher.id}`}
+                key={teacher.id}
+                teacher={teacher}
+              />
             ))
           ) : (
             <div className="text-muted-foreground w-full">
               Nenhum professor encontrado.
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="flex w-full flex-col gap-2">
+        <div className="flex w-full items-center justify-between">
+          <h2 className="font-heading text-xl font-semibold">Pré-requisitos</h2>
+        </div>
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
+          {isSubjectPending ? (
+            Array.from({ length: 4 }).map((_, index) => (
+              <CardSkeleton key={index} />
+            ))
+          ) : subject &&
+            subject?.prerequisites &&
+            subject.prerequisites.length > 0 ? (
+            subject?.prerequisites.map((prerequisite) => (
+              <SubjectCard
+                key={prerequisite.code}
+                subject={prerequisite}
+                to={`/admin/subjects/${prerequisite.code}`}
+              />
+            ))
+          ) : (
+            <div className="text-muted-foreground w-full">
+              Nenhum pré-requisito encontrado.
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="flex w-full flex-col gap-2">
+        <div className="flex w-full items-center justify-between">
+          <h2 className="font-heading text-xl font-semibold">
+            Disciplinas Dependentes
+          </h2>
+        </div>
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
+          {isSubjectPending ? (
+            Array.from({ length: 4 }).map((_, index) => (
+              <CardSkeleton key={index} />
+            ))
+          ) : subject &&
+            subject?.dependentSubjects &&
+            subject.dependentSubjects.length > 0 ? (
+            subject?.dependentSubjects.map((subject) => (
+              <SubjectCard
+                key={subject.code}
+                subject={subject}
+                to={`/admin/subjects/${subject.code}`}
+              />
+            ))
+          ) : (
+            <div className="text-muted-foreground w-full">
+              Nenhum disciplina dependente encontrada.
             </div>
           )}
         </div>

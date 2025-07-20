@@ -1,5 +1,6 @@
 import { Logo } from '@/assets/logo'
 import { NavItem, type NavItemType } from '@/components/nav-items'
+import { ModeToggle } from '@/components/theme-toggle'
 import { UserAccountCard } from '@/components/user-account-card'
 import {
   Album,
@@ -55,8 +56,10 @@ export function Sidebar() {
           </li>
         ))}
       </ul>
-
-      <UserAccountCard className="mt-auto w-full" />
+      <div className="mt-auto flex w-full flex-col gap-2">
+        <ModeToggle />
+        <UserAccountCard className="w-full" />
+      </div>
     </aside>
   )
 }

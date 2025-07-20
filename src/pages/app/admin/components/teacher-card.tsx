@@ -4,12 +4,13 @@ import { Link } from 'react-router'
 
 type TeacherCardProps = {
   teacher: Teacher | TeacherDepartment
+  to?: string
 }
 
-export function TeacherCard({ teacher }: TeacherCardProps) {
+export function TeacherCard({ teacher, to }: TeacherCardProps) {
   return (
     <Link
-      to={`${teacher.id}`}
+      to={to || `${teacher.id}`}
       className="bg-accent/50 border-border group hover:bg-accent/70 h-fit w-full cursor-pointer overflow-hidden rounded-md border transition-colors"
     >
       <div className="bg-primary group-hover:bg-primary/90 flex h-12 w-full items-center justify-center transition-colors">

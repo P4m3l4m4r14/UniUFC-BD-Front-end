@@ -1,15 +1,16 @@
-import type { Subject } from '@/types/subjects'
+import type { Subject, SubjectCourse } from '@/types/subjects'
 import { Blocks } from 'lucide-react'
 import { Link } from 'react-router'
 
 type SubjectCardProps = {
-  subject: Subject
+  subject: Subject | SubjectCourse
+  to?: string
 }
 
-export function SubjectCard({ subject }: SubjectCardProps) {
+export function SubjectCard({ subject, to }: SubjectCardProps) {
   return (
     <Link
-      to={`${subject.code}`}
+      to={to || `${subject.code}`}
       className="bg-accent/50 border-border group hover:bg-accent/70 h-fit w-full cursor-pointer overflow-hidden rounded-md border transition-colors"
     >
       <div className="bg-primary group-hover:bg-primary/90 flex h-12 w-full items-center justify-center transition-colors">

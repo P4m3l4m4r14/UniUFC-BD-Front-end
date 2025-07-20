@@ -9,29 +9,33 @@ import { useCallback } from 'react'
 import { toast } from 'sonner'
 import { InfoPill } from '@/components/info-pill'
 import { findCourseByCodeService } from '@/services/course/fint-course-by-code'
+import { deleteCourseService } from '@/services/course/delete-course-service'
+import { CardSkeleton } from '../components/card-skeleton'
+import { SubjectCard } from '../components/subject-card'
+import { StudentCard } from '../components/student-card'
 
 export function AdminCourseDetailsPage() {
   const navigate = useNavigate()
   const { copyToClipboard } = useClipboard()
   const { courseId } = useParams<{ courseId: string }>()
 
-  const { data: course } = useQuery({
+  const { data: course, isPending: isCourseLoading } = useQuery({
     queryKey: ['course', courseId],
     queryFn: () => findCourseByCodeService({ code: Number(courseId) }),
   })
 
   const handleDeleteCourse = useCallback(async () => {
     try {
-      // await deleteCourseService(courseId!)
+      await deleteCourseService(courseId!)
 
       navigate('/admin/courses')
 
-      toast.success('Professor excluído com sucesso.')
+      toast.success('Curso excluído com sucesso.')
     } catch (error) {
-      toast.error('Erro ao excluir o professor.')
+      toast.error('Não foi possível excluir o curso.')
       console.error('Error deleting course:', error)
     }
-  }, [navigate])
+  }, [navigate, courseId])
 
   return (
     <>
@@ -42,10 +46,28 @@ export function AdminCourseDetailsPage() {
           <div className="flex gap-1">
             {course?.department && (
               <InfoPill
+                label="Código"
+                value={course.code}
+                icon={<Copy />}
+                onClick={() =>
+                  copyToClipboard(
+                    String(course.code),
+                    'Código do curso copiado!',
+                  )
+                }
+              />
+            )}
+            {course?.department && (
+              <InfoPill
                 label="Departamento"
                 value={course.department.name}
                 icon={<Copy />}
-                onClick={() => copyToClipboard(String(course.department.code))}
+                onClick={() =>
+                  copyToClipboard(
+                    String(course.department.code),
+                    'Código do departamento copiado!',
+                  )
+                }
               />
             )}
           </div>
@@ -62,6 +84,54 @@ export function AdminCourseDetailsPage() {
               <Trash className="text-destructive size-4" />
             </Button>
           </AlertDialog>
+        </div>
+      </div>
+      <div className="flex w-full flex-col gap-2">
+        <div className="flex w-full items-center justify-between">
+          <h2 className="font-heading text-xl font-semibold">Disciplinas</h2>
+        </div>
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
+          {isCourseLoading ? (
+            Array.from({ length: 4 }).map((_, index) => (
+              <CardSkeleton key={index} />
+            ))
+          ) : course && course?.subjects && course?.subjects.length > 0 ? (
+            course?.subjects.map((subject) => (
+              <SubjectCard
+                key={subject.code}
+                subject={subject}
+                to={`/admin/subjects/${subject.code}`}
+              />
+            ))
+          ) : (
+            <div className="text-muted-foreground w-full">
+              Nenhuma disciplina encontrada.
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="flex w-full flex-col gap-2">
+        <div className="flex w-full items-center justify-between">
+          <h2 className="font-heading text-xl font-semibold">Estudantes</h2>
+        </div>
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
+          {isCourseLoading ? (
+            Array.from({ length: 4 }).map((_, index) => (
+              <CardSkeleton key={index} />
+            ))
+          ) : course && course?.students && course?.students.length > 0 ? (
+            course?.students.map((student) => (
+              <StudentCard
+                key={student.code}
+                student={student}
+                to={`/admin/students/${student.code}`}
+              />
+            ))
+          ) : (
+            <div className="text-muted-foreground w-full">
+              Nenhum estudante encontrado.
+            </div>
+          )}
         </div>
       </div>
     </>
