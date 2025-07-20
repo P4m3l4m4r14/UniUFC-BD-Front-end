@@ -13,6 +13,8 @@ import { deleteCourseService } from '@/services/course/delete-course-service'
 import { CardSkeleton } from '../components/card-skeleton'
 import { SubjectCard } from '../components/subject-card'
 import { StudentCard } from '../components/student-card'
+import { CreateUndergraduateStudentInCourseDialog } from '@/components/dialogs/create-undergraduate-student-in-course-dialog'
+import { CreatePostgraduateStudentInCourseDialog } from '@/components/dialogs/create-postgraduate-student-in-course-dialog'
 
 export function AdminCourseDetailsPage() {
   const navigate = useNavigate()
@@ -113,6 +115,17 @@ export function AdminCourseDetailsPage() {
       <div className="flex w-full flex-col gap-2">
         <div className="flex w-full items-center justify-between">
           <h2 className="font-heading text-xl font-semibold">Estudantes</h2>
+
+          {course?.code && (
+            <div className="flex gap-1">
+              <CreateUndergraduateStudentInCourseDialog
+                courseCode={course.code}
+              />
+              <CreatePostgraduateStudentInCourseDialog
+                courseCode={course.code}
+              />
+            </div>
+          )}
         </div>
         <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
           {isCourseLoading ? (

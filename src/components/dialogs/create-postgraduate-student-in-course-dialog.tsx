@@ -100,7 +100,7 @@ export function CreatePostgraduateStudentInCourseDialog({
         })
 
         await queryClient.invalidateQueries({
-          queryKey: ['students'],
+          queryKey: ['course', courseCode],
         })
 
         toast.success('Curso criado com sucesso.')

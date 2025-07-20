@@ -153,7 +153,6 @@ export function CreateSubjectDialog() {
                   </FormItem>
                 )}
               />
-
               <div className="flex w-full gap-1">
                 <FormField
                   control={form.control}
@@ -199,7 +198,6 @@ export function CreateSubjectDialog() {
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="typeSubject"
@@ -218,26 +216,25 @@ export function CreateSubjectDialog() {
                   </FormItem>
                 )}
               />
-
               <FormItem>
-                <FormLabel>Pré-requisitos</FormLabel>
+                <FormLabel>Códigos de Pré-requisitos</FormLabel>
                 <FormControl>
                   <TagInput
                     tags={prerequisitesId}
                     onTagsChange={setPrerequisitesId}
-                    placeholder="Adicione um pré-requisito"
+                    placeholder="Adicione o código deum pré-requisito"
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
-
+              ''
               <FormItem>
-                <FormLabel>Professores</FormLabel>
+                <FormLabel>Códigos de Pré-requisitos</FormLabel>
                 <FormControl>
                   <TagInput
                     tags={teacherId}
                     onTagsChange={setTeacherId}
-                    placeholder="Adicione um professor"
+                    placeholder="Adicione o código de um professor"
                   />
                 </FormControl>
                 <FormMessage />
