@@ -188,31 +188,50 @@ export function CreatePostgraduateStudentDialog() {
                   )}
                 />
               </div>
+              <div className="flex gap-1">
+                <FormField
+                  control={form.control}
+                  name="admissionYear"
+                  render={({ field: { onChange, value, ...rest } }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Ano de Admissão</FormLabel>
+                      <FormControl>
+                        <DatePicker
+                          date={value}
+                          onDateChange={onChange}
+                          {...rest}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="address"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Endereço</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ex: Rua A, 123" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <FormField
                 control={form.control}
-                name="admissionYear"
-                render={({ field: { onChange, value, ...rest } }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Ano de Admissão</FormLabel>
-                    <FormControl>
-                      <DatePicker
-                        date={value}
-                        onDateChange={onChange}
-                        {...rest}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="address"
+                name="password"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Endereço</FormLabel>
+                  <FormItem className="w-full">
+                    <FormLabel>Senha</FormLabel>
                     <FormControl>
-                      <Input placeholder="Ex: Rua A, 123" {...field} />
+                      <Input
+                        placeholder="Ex: ********"
+                        type="password"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
