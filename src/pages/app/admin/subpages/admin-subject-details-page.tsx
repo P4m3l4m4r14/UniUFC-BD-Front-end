@@ -12,10 +12,12 @@ import { CardSkeleton } from '../components/card-skeleton'
 import { findSubjectByCodeService } from '@/services/subjects/find-subject-by-code-service'
 import { deleteSubjectService } from '@/services/subjects/delete-subject-service'
 import { InfoPill } from '@/components/info-pill'
-import { TeacherCard } from '../components/teacher-card'
 import { getSubjectTypeName } from '@/lib/get-subject-type-name'
 import { CourseCard } from '../components/course-card'
 import { SubjectCard } from '../components/subject-card'
+import { findAllEnrollmentService } from '@/services/enrollment/find-all-enrollments-service'
+import { StudentCard } from '../components/student-card'
+import { CreateEnrollmentInSubjectDialog } from '@/components/dialogs/create-enrollment-in-subject-dialog'
 
 export function AdminSubjectDetailsPage() {
   const navigate = useNavigate()
@@ -25,6 +27,10 @@ export function AdminSubjectDetailsPage() {
   const { data: subject, isPending: isSubjectPending } = useQuery({
     queryKey: ['subject', subjectId],
     queryFn: () => findSubjectByCodeService(subjectId!),
+  })
+  const { data: enrollments, isPending: isEnrollmentPending } = useQuery({
+    queryKey: ['enrollments'],
+    queryFn: () => findAllEnrollmentService(),
   })
 
   const handleDeleteSubject = useCallback(async () => {
@@ -103,24 +109,34 @@ export function AdminSubjectDetailsPage() {
 
       <div className="flex w-full flex-col gap-2">
         <div className="flex w-full items-center justify-between">
-          <h2 className="font-heading text-xl font-semibold">Professores</h2>
+          <h2 className="font-heading text-xl font-semibold">
+            Estudantes Matriculados
+          </h2>
+
+          {subject?.code && (
+            <CreateEnrollmentInSubjectDialog subjectId={subject.code} />
+          )}
         </div>
         <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
-          {isSubjectPending ? (
+          {isEnrollmentPending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <CardSkeleton key={index} />
             ))
-          ) : subject && subject?.teachers && subject.teachers.length > 0 ? (
-            subject?.teachers.map((teacher) => (
-              <TeacherCard
-                to={`/admin/teachers/${teacher.id}`}
-                key={teacher.id}
-                teacher={teacher}
-              />
-            ))
+          ) : enrollments && enrollments.length > 0 ? (
+            enrollments
+              ?.filter(
+                (enrollment) => enrollment.subject.code === subject?.code,
+              )
+              .map((enrollment) => (
+                <StudentCard
+                  to={`/admin/students/${enrollment.student.code}`}
+                  key={enrollment.student.code}
+                  student={enrollment.student}
+                />
+              ))
           ) : (
             <div className="text-muted-foreground w-full">
-              Nenhum professor encontrado.
+              Nenhum estudante matriculado encontrado.
             </div>
           )}
         </div>

@@ -26,7 +26,7 @@ import { useCallback, useState } from 'react'
 import { queryClient } from '@/lib/query-client'
 
 import { toast } from 'sonner'
-import { createEnrollmentService } from '@/services/enrollment/create-enrollment'
+import { createEnrollmentService } from '@/services/enrollment/create-enrollment-service'
 
 const createEnrollmentSchema = z.object({
   studentId: z.coerce

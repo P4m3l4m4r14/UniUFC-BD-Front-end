@@ -12,6 +12,7 @@ import { deleteStudentService } from '@/services/students/delete-student-service
 import { StudentInformationDialog } from '@/components/dialogs/student-information-dialog'
 import { CardSkeleton } from '../components/card-skeleton'
 import { SubjectNameCard } from '../components/subject-name-card'
+import { CreateEnrollmentInStudentDialog } from '@/components/dialogs/create-enrollment-in-student-dialog'
 
 export function AdminStudentDetailsPage() {
   const navigate = useNavigate()
@@ -83,6 +84,10 @@ export function AdminStudentDetailsPage() {
       <div className="flex w-full flex-col gap-2">
         <div className="flex w-full items-center justify-between">
           <h2 className="font-heading text-xl font-semibold">Disciplinas</h2>
+
+          {student?.code && (
+            <CreateEnrollmentInStudentDialog studentId={student.code} />
+          )}
         </div>
         <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
           {isStudentPending ? (

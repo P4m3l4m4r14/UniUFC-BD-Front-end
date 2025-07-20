@@ -26,7 +26,7 @@ import { useCallback, useState } from 'react'
 import { queryClient } from '@/lib/query-client'
 
 import { toast } from 'sonner'
-import { createEnrollmentService } from '@/services/enrollment/create-enrollment'
+import { createEnrollmentService } from '@/services/enrollment/create-enrollment-service'
 
 const createEnrollmentInStudentSchema = z.object({
   subjectId: z.coerce
@@ -65,7 +65,7 @@ export function CreateEnrollmentInStudentDialog({
         })
 
         await queryClient.invalidateQueries({
-          queryKey: ['enrollment', studentId],
+          queryKey: ['student', studentId],
         })
 
         toast.success('Matrícula criada com sucesso.')
