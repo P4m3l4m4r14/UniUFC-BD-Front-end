@@ -4,12 +4,13 @@ import { Link } from 'react-router'
 
 type CourseCardProps = {
   course: Course | CourseDepartment
+  to?: string
 }
 
-export function CourseCard({ course }: CourseCardProps) {
+export function CourseCard({ course, to }: CourseCardProps) {
   return (
     <Link
-      to={`${course.code}`}
+      to={to || `${course.code}`}
       className="bg-accent/50 border-border group hover:bg-accent/70 h-fit w-full cursor-pointer overflow-hidden rounded-md border transition-colors"
     >
       <div className="bg-primary group-hover:bg-primary/90 flex h-12 w-full items-center justify-center transition-colors">

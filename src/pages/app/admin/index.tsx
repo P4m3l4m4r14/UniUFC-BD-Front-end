@@ -6,7 +6,7 @@ export function AdminPage() {
   return (
     <article className="flex h-dvh w-full">
       <Sidebar />
-      <section className="flex flex-1 flex-col gap-4 px-6 py-6">
+      <section className="flex flex-1 flex-col gap-4 overflow-x-hidden overflow-y-auto px-6 py-6">
         <Outlet />
       </section>
     </article>

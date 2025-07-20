@@ -3,19 +3,19 @@ import { findDepartmentByCode } from '@/services/departments/find-department-by-
 import { useQuery } from '@tanstack/react-query'
 import { Copy, Trash } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router'
-import { TeacherCard } from '../components/teacher-card'
 import { CreateTeacherInDepartmentDialog } from '@/components/dialogs/create-teacher-in-department-dialog'
 import AlertDialog from '@/components/alert-dialog'
 import { useCallback } from 'react'
 import { toast } from 'sonner'
 import { deleteDepartmentService } from '@/services/departments/delete-department-service'
-import { CourseCard } from '../components/course-card'
 import { CreateCourseInDepartmentDialog } from '@/components/dialogs/create-course-in-department'
 import { CardSkeleton } from '../components/card-skeleton'
 import { CreateEmployeeInDepartmentDialog } from '@/components/dialogs/create-employee-in-department'
 import { findEmployeesByDepartmentCodeService } from '@/services/employee/get-employee-by-department-code'
-import { EmployeeCard } from '../components/employee-card'
 import { useClipboard } from '@/hooks/use-clipboard'
+import { TeacherCard } from '../components/teacher-card'
+import { CourseCard } from '../components/course-card'
+import { EmployeeCard } from '../components/employee-card'
 
 export function AdminDepartmentDetailsPage() {
   const navigate = useNavigate()
@@ -87,14 +87,26 @@ export function AdminDepartmentDetailsPage() {
             <CreateTeacherInDepartmentDialog department={department} />
           )}
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
-          {isDepartmentPending
-            ? Array.from({ length: 4 }).map((_, index) => (
-                <CardSkeleton key={index} />
-              ))
-            : department?.teachers.map((teacher) => (
-                <TeacherCard key={teacher.id} teacher={teacher} />
-              ))}
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-4">
+          {isDepartmentPending ? (
+            Array.from({ length: 4 }).map((_, index) => (
+              <CardSkeleton key={index} />
+            ))
+          ) : department &&
+            department?.teachers &&
+            department.teachers.length > 0 ? (
+            department?.teachers.map((teacher) => (
+              <TeacherCard
+                key={teacher.id}
+                teacher={teacher}
+                to={`/admin/teachers/${teacher.id}`}
+              />
+            ))
+          ) : (
+            <div className="text-muted-foreground w-full">
+              Nenhum professor encontrado.
+            </div>
+          )}
         </div>
       </div>
       <div className="flex w-full flex-col gap-2">
@@ -104,14 +116,26 @@ export function AdminDepartmentDetailsPage() {
             <CreateCourseInDepartmentDialog department={department} />
           )}
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
-          {isDepartmentPending
-            ? Array.from({ length: 4 }).map((_, index) => (
-                <CardSkeleton key={index} />
-              ))
-            : department?.courses.map((course) => (
-                <CourseCard key={course.code} course={course} />
-              ))}
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-4">
+          {isDepartmentPending ? (
+            Array.from({ length: 4 }).map((_, index) => (
+              <CardSkeleton key={index} />
+            ))
+          ) : department &&
+            department?.courses &&
+            department.courses.length > 0 ? (
+            department?.courses.map((course) => (
+              <CourseCard
+                key={course.code}
+                course={course}
+                to={`/admin/courses/${course.code}`}
+              />
+            ))
+          ) : (
+            <div className="text-muted-foreground w-full">
+              Nenhum curso encontrado.
+            </div>
+          )}
         </div>
       </div>
       <div className="flex w-full flex-col gap-2">
@@ -121,15 +145,20 @@ export function AdminDepartmentDetailsPage() {
             <CreateEmployeeInDepartmentDialog department={department} />
           )}
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
-          {isEmployeePending
-            ? Array.from({ length: 4 }).map((_, index) => (
-                <CardSkeleton key={index} />
-              ))
-            : employees &&
-              employees.map((employee) => (
-                <EmployeeCard key={employee.name} employee={employee} />
-              ))}
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-4">
+          {isEmployeePending ? (
+            Array.from({ length: 4 }).map((_, index) => (
+              <CardSkeleton key={index} />
+            ))
+          ) : employees && employees.length > 0 ? (
+            employees.map((employee) => (
+              <EmployeeCard key={employee.id} employee={employee} />
+            ))
+          ) : (
+            <div className="text-muted-foreground w-full">
+              Nenhum empregado encontrado.
+            </div>
+          )}
         </div>
       </div>
     </>
