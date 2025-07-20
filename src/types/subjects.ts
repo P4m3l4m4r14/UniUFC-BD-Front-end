@@ -1,11 +1,16 @@
-type SubjectType = 'OBLIGATORY' | 'OPTIONAL'
+import type { CourseDepartment } from './course'
+import type { TeacherDepartment } from './teacher'
+
+export type SubjectType = 'OBLIGATORY' | 'OPTIONAL'
 
 export type SubjectBasic = {
   code: number
   name: string
   credits: number
   syllabus: string
+  course: CourseDepartment
   typeSubject: SubjectType
+  teachers: TeacherDepartment[]
 }
 
 export type SubjectCourse = Pick<

@@ -8,7 +8,6 @@ import {
   Contact,
   GraduationCap,
   User,
-  Users,
 } from 'lucide-react'
 
 const items: NavItemType[] = [
@@ -41,11 +40,6 @@ const items: NavItemType[] = [
     label: 'Disciplinas',
     href: '/admin/subjects',
     icon: <Blocks />,
-  },
-  {
-    label: 'Turmas',
-    href: '/admin/classes',
-    icon: <Users />,
   },
 ]
 

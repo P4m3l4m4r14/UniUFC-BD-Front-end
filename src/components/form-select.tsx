@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/select'
 import type { ComponentProps } from 'react'
 
-type Options = {
+export type Options = {
   value: string
   label: string
 }

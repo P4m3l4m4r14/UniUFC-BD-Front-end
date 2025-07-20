@@ -1,0 +1,119 @@
+import { Button } from '@/components/ui/button'
+import { useQuery } from '@tanstack/react-query'
+import { Copy, Trash } from 'lucide-react'
+import { useNavigate, useParams } from 'react-router'
+import AlertDialog from '@/components/alert-dialog'
+import { useClipboard } from '@/hooks/use-clipboard'
+
+import { useCallback } from 'react'
+import { toast } from 'sonner'
+
+import { CardSkeleton } from '../components/card-skeleton'
+import { findSubjectByCodeService } from '@/services/subjects/find-subject-by-code-service'
+import { deleteSubjectService } from '@/services/subjects/delete-subject-service'
+import { InfoPill } from '@/components/info-pill'
+import { TeacherCard } from '../components/teacher-card'
+import { getSubjectTypeName } from '@/lib/get-subject-type-name'
+import { CourseCard } from '../components/course-card'
+
+export function AdminSubjectDetailsPage() {
+  const navigate = useNavigate()
+  const { copyToClipboard } = useClipboard()
+  const { subjectId } = useParams<{ subjectId: string }>()
+
+  const { data: subject, isPending: isSubjectPending } = useQuery({
+    queryKey: ['subject', subjectId],
+    queryFn: () => findSubjectByCodeService(subjectId!),
+  })
+
+  const handleDeleteSubject = useCallback(async () => {
+    try {
+      await deleteSubjectService(subjectId!)
+
+      navigate('/admin/subjects')
+
+      toast.success('Disciplina excluída com sucesso.')
+    } catch (error) {
+      toast.error('Erro ao excluir a disciplina.')
+      console.error('Error deleting subject:', error)
+    }
+  }, [subjectId, navigate])
+
+  return (
+    <>
+      <div className="flex w-full items-center justify-between">
+        <div className="flex flex-col items-start justify-center">
+          <span className="text-xs uppercase">Disciplina:</span>
+          <h1 className="font-heading text-3xl font-bold">{subject?.name}</h1>
+          <div className="flex gap-1">
+            {subject?.code && (
+              <>
+                <InfoPill
+                  label="Código"
+                  value={subject.code}
+                  icon={<Copy />}
+                  onClick={() => copyToClipboard(String(subject.code))}
+                />
+                <InfoPill label="Créditos" value={subject.credits} />
+                <InfoPill
+                  label="Tipo"
+                  value={getSubjectTypeName(subject.typeSubject)}
+                />
+                {/* <SubjectInformationDialog subject={subject}>
+                  <button className="text-accent-foreground bg-accent border-border flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs leading-tight uppercase">
+                    <span>+ info</span>
+
+                    <Info className="size-2.5" />
+                  </button>
+                </SubjectInformationDialog> */}
+              </>
+            )}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <AlertDialog
+            actionText="Excluir"
+            cancelText="Cancelar"
+            title="Excluir professor"
+            description="Você tem certeza que deseja excluir este professor? Esta ação não pode ser desfeita."
+            onAction={handleDeleteSubject}
+          >
+            <Button variant="outline">
+              <Trash className="text-destructive size-4" />
+            </Button>
+          </AlertDialog>
+        </div>
+      </div>
+
+      <div className="flex w-full flex-col gap-2">
+        <div className="flex w-full items-center justify-between">
+          <h2 className="font-heading text-xl font-semibold">Curso</h2>
+        </div>
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
+          {subject?.course && <CourseCard course={subject?.course} />}
+        </div>
+      </div>
+      <div className="flex w-full flex-col gap-2">
+        <div className="flex w-full items-center justify-between">
+          <h2 className="font-heading text-xl font-semibold">Professores</h2>
+        </div>
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
+          {isSubjectPending ? (
+            Array.from({ length: 4 }).map((_, index) => (
+              <CardSkeleton key={index} />
+            ))
+          ) : subject && subject?.teachers && subject.teachers.length > 0 ? (
+            subject?.teachers.map((teacher) => (
+              <TeacherCard key={teacher.id} teacher={teacher} />
+            ))
+          ) : (
+            <div className="text-muted-foreground w-full">
+              Nenhum professor encontrado.
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  )
+}

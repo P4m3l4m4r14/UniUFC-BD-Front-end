@@ -17,6 +17,8 @@ import { AdminCoursesPage } from '@/pages/app/admin/subpages/admin-courses-page'
 import { AdminCourseDetailsPage } from '@/pages/app/admin/subpages/admin-course-details-page'
 import { AdminStudentsPage } from '@/pages/app/admin/subpages/admin-student-page'
 import { AdminStudentDetailsPage } from '@/pages/app/admin/subpages/admin-student-details-page'
+import { AdminSubjectPage } from '@/pages/app/admin/subpages/admin-subjects-page'
+import { AdminSubjectDetailsPage } from '@/pages/app/admin/subpages/admin-subject-details-page'
 
 export const router = createBrowserRouter([
   {
@@ -75,6 +77,14 @@ export const router = createBrowserRouter([
           {
             path: '/admin/courses/:courseId',
             element: <AdminCourseDetailsPage />,
+          },
+          {
+            path: '/admin/subjects',
+            element: <AdminSubjectPage />,
+          },
+          {
+            path: '/admin/subjects/:subjectId',
+            element: <AdminSubjectDetailsPage />,
           },
           {
             path: '/admin/*',

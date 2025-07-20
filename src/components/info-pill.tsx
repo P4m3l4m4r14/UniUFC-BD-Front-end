@@ -3,7 +3,7 @@ import type { ComponentProps, JSX } from 'react'
 
 type InfoPillProps = {
   label: string
-  value?: string
+  value?: string | number
   icon?: JSX.Element | IconNode
 } & ComponentProps<'button'>
 
