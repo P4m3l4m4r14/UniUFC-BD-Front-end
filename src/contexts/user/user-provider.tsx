@@ -6,7 +6,6 @@ import {
 } from '@/services/auth/sign-in-service'
 import { addTokenToApi } from '@/utils/api/add-token-to-api'
 import type { AuthUser } from '@/types/user'
-import { removeToken } from '@/storage/token/remove-token'
 import { removeTokenFromApi } from '@/utils/api/remove-token-from-api'
 import type { Student } from '@/types/students'
 import type { Teacher } from '@/types/teacher'
@@ -16,6 +15,7 @@ import { getUserInLocalStorage } from '@/storage/user/get-user-in-localstorage'
 import { findStudentByCodeService } from '@/services/students/find-student-by-code-service'
 import { findTeacherByCodeService } from '@/services/teacher/find-teacher-by-code-service'
 import { findEmployeeByCodeService } from '@/services/employee/fint-employee-by-code'
+import { removeUserInLocalStorage } from '@/storage/user/remove-user-in-localstorage'
 
 export type UserContextProps = {
   user: AuthUser | null
@@ -45,7 +45,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         const userData = await signInService({ code, password })
 
         saveUserInLocalStorage(userData)
-        await addTokenToApi(userData.token)
+        addTokenToApi(userData.token)
 
         setUser(userData)
 
@@ -157,8 +157,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const signOut = useCallback(() => {
     setUser(null)
-    removeToken()
     removeTokenFromApi()
+    removeUserInLocalStorage()
   }, [])
 
   const value = useMemo(
