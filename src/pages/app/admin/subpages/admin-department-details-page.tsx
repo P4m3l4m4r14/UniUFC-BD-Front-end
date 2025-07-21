@@ -9,13 +9,13 @@ import { useCallback } from 'react'
 import { toast } from 'sonner'
 import { deleteDepartmentService } from '@/services/departments/delete-department-service'
 import { CreateCourseInDepartmentDialog } from '@/components/dialogs/create-course-in-department'
-import { CardSkeleton } from '../components/card-skeleton'
+import { CardSkeleton } from '../../components/card-skeleton'
 import { CreateEmployeeInDepartmentDialog } from '@/components/dialogs/create-employee-in-department'
 import { findEmployeesByDepartmentCodeService } from '@/services/employee/get-employee-by-department-code'
 import { useClipboard } from '@/hooks/use-clipboard'
-import { TeacherCard } from '../components/teacher-card'
-import { CourseCard } from '../components/course-card'
-import { EmployeeCard } from '../components/employee-card'
+import { TeacherCard } from '../../components/teacher-card'
+import { CourseCard } from '../../components/course-card'
+import { EmployeeCard } from '../../components/employee-card'
 
 export function AdminDepartmentDetailsPage() {
   const navigate = useNavigate()

@@ -4,14 +4,14 @@ import { Copy, Info, Trash } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router'
 import AlertDialog from '@/components/alert-dialog'
 import { useClipboard } from '@/hooks/use-clipboard'
-import { findTeacherByCode } from '@/services/teacher/find-teacher-by-code'
+import { findTeacherByCodeService } from '@/services/teacher/find-teacher-by-code-service'
 import { deleteTeacherService } from '@/services/teacher/delete-teacher-service'
 import { useCallback } from 'react'
 import { toast } from 'sonner'
 import { TeacherInformationDialog } from '@/components/dialogs/teacher-information-dialog'
-import { CardSkeleton } from '../components/card-skeleton'
-import { StudentCard } from '../components/student-card'
-import { SubjectCard } from '../components/subject-card'
+import { CardSkeleton } from '../../components/card-skeleton'
+import { StudentCard } from '../../components/student-card'
+import { SubjectCard } from '../../components/subject-card'
 
 export function AdminTeacherDetailsPage() {
   const navigate = useNavigate()
@@ -20,7 +20,7 @@ export function AdminTeacherDetailsPage() {
 
   const { data: teacher, isPending: isTeacherPending } = useQuery({
     queryKey: ['teacher', teacherId],
-    queryFn: () => findTeacherByCode({ code: Number(teacherId) }),
+    queryFn: () => findTeacherByCodeService({ code: Number(teacherId) }),
   })
 
   const handleDeleteTeacher = useCallback(async () => {

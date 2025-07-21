@@ -1,6 +1,6 @@
 import { findAllSubjectsService } from '@/services/subjects/fint-all-subjects-service'
 import { useQuery } from '@tanstack/react-query'
-import { SubjectCard } from '../components/subject-card'
+import { SubjectCard } from '../../components/subject-card'
 import { CreateSubjectDialog } from '@/components/dialogs/create-subject-dialog'
 
 export function AdminSubjectPage() {

@@ -187,6 +187,8 @@ export function CreatePostgraduateStudentDialog() {
                 />
               </div>
               <div className="flex gap-1">
+                <FormField
+                  control={form.control}
       
                 <FormField
                   control={form.control}

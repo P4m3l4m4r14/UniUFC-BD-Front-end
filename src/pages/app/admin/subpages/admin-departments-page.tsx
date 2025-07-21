@@ -1,7 +1,7 @@
 import { CreateDepartmentDialog } from '@/components/dialogs/create-department-dialog'
 import { findAllDepartmentsService } from '@/services/departments/find-all-departments-service'
 import { useQuery } from '@tanstack/react-query'
-import { DepartmentCard } from '../components/department-card'
+import { DepartmentCard } from '../../components/department-card'
 
 export function AdminDepartmentsPage() {
   const { data: departments } = useQuery({

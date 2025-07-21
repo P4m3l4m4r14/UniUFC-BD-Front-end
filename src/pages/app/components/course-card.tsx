@@ -1,25 +1,30 @@
-import type { Subject, SubjectCourse } from '@/types/subjects'
-import { Blocks } from 'lucide-react'
+import type { Course, CourseDepartment } from '@/types/course'
+import { Album } from 'lucide-react'
 import { Link } from 'react-router'
 
-type SubjectCardProps = {
-  subject: Subject | SubjectCourse
+type CourseCardProps = {
+  course: Course | CourseDepartment
   to?: string
+  isLinkDisabled?: boolean
 }
 
-export function SubjectCard({ subject, to }: SubjectCardProps) {
+export function CourseCard({
+  course,
+  to,
+  isLinkDisabled = false,
+}: CourseCardProps) {
   return (
     <Link
-      to={to || `${subject.code}`}
+      to={isLinkDisabled ? to || `${course.code}` : ''}
       className="bg-accent/50 border-border group hover:bg-accent/70 h-fit w-full cursor-pointer overflow-hidden rounded-md border transition-colors"
     >
       <div className="bg-primary group-hover:bg-primary/90 flex h-12 w-full items-center justify-center transition-colors">
-        <Blocks className="text-accent size-6" />
+        <Album className="text-accent size-6" />
       </div>
       <div className="flex flex-col items-center justify-center py-4">
-        <span className="text-xs uppercase">Disciplina</span>
+        <span className="text-xs">CURSO</span>
         <strong className="text-base first-letter:uppercase">
-          {subject.name}
+          {course.name}
         </strong>
       </div>
     </Link>

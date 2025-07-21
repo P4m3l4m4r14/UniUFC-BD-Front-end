@@ -10,8 +10,8 @@ import { toast } from 'sonner'
 import { findStudentByCodeService } from '@/services/students/find-student-by-code-service'
 import { deleteStudentService } from '@/services/students/delete-student-service'
 import { StudentInformationDialog } from '@/components/dialogs/student-information-dialog'
-import { CardSkeleton } from '../components/card-skeleton'
-import { SubjectNameCard } from '../components/subject-name-card'
+import { CardSkeleton } from '../../components/card-skeleton'
+import { SubjectNameCard } from '../../components/subject-name-card'
 import { CreateEnrollmentInStudentDialog } from '@/components/dialogs/create-enrollment-in-student-dialog'
 
 export function AdminStudentDetailsPage() {

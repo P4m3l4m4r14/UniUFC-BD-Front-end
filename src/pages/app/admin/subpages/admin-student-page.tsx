@@ -1,7 +1,7 @@
 import { CreateUndergraduateStudentDialog } from '@/components/dialogs/create-undergraduate-student-dialog'
 import { findAllStudentsService } from '@/services/students/find-all-students-service'
 import { useQuery } from '@tanstack/react-query'
-import { StudentCard } from '../components/student-card'
+import { StudentCard } from '../../components/student-card'
 import { CreatePostgraduateStudentDialog } from '@/components/dialogs/create-postgraduate-student-dialog.'
 
 export function AdminStudentsPage() {
