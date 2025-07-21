@@ -20,7 +20,7 @@ export function AdminStudentsPage() {
           <CreatePostgraduateStudentDialog />
         </div>
       </div>
-      <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-4">
+      <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
         {students?.map((student) => (
           <StudentCard key={student.code} student={student} />
         ))}

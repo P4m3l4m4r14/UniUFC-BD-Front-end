@@ -87,7 +87,7 @@ export function AdminDepartmentDetailsPage() {
             <CreateTeacherInDepartmentDialog department={department} />
           )}
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-4">
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
           {isDepartmentPending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <CardSkeleton key={index} />
@@ -116,7 +116,7 @@ export function AdminDepartmentDetailsPage() {
             <CreateCourseInDepartmentDialog department={department} />
           )}
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-4">
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
           {isDepartmentPending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <CardSkeleton key={index} />
@@ -145,7 +145,7 @@ export function AdminDepartmentDetailsPage() {
             <CreateEmployeeInDepartmentDialog department={department} />
           )}
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-4">
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
           {isEmployeePending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <CardSkeleton key={index} />

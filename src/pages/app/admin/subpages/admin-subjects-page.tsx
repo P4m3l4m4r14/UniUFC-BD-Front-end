@@ -16,7 +16,7 @@ export function AdminSubjectPage() {
 
         <CreateSubjectDialog />
       </div>
-      <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-4">
+      <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
         {subjects?.map((subject) => (
           <SubjectCard key={subject.code} subject={subject} />
         ))}

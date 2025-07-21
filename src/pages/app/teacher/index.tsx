@@ -71,7 +71,7 @@ export function TeacherPage() {
           <div className="flex w-full items-center justify-between">
             <h2 className="font-heading text-xl font-semibold">Disciplinas</h2>
           </div>
-          <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-4">
+          <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
             {isEnrollmentsPending ? (
               Array.from({ length: 4 }).map((_, index) => (
                 <CardSkeleton key={index} />

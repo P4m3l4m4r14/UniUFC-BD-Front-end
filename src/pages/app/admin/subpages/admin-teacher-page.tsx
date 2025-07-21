@@ -16,7 +16,7 @@ export function AdminTeacherPage() {
 
         <CreateTeacherDialog />
       </div>
-      <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-4">
+      <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
         {teachers?.map((teacher) => (
           <TeacherCard key={teacher.id} teacher={teacher} />
         ))}
