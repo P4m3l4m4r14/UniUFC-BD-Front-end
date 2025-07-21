@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { EmployeeCard } from '../components/employee-card'
+import { EmployeeCard } from '../../components/employee-card'
 import { findAllEmployeesService } from '@/services/employee/find-all-employees-service'
 import { CreateEmployeeDialog } from '@/components/dialogs/create-employee-dialog'
 

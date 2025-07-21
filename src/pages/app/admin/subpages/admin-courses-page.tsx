@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { CourseCard } from '../components/course-card'
+import { CourseCard } from '../../components/course-card'
 import { findAllCoursesService } from '@/services/course/find-all-courses-service'
 import { CreateCourseDialog } from '@/components/dialogs/create-course-dialog'
 

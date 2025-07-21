@@ -5,7 +5,6 @@ import { AuthLayout } from '../pages/auth/auth-layout'
 import { SignIn } from '../pages/auth/sign-in'
 import { TeacherPage } from '@/pages/app/teacher'
 import { StudentPage } from '@/pages/app/student'
-import { AdminPage } from '@/pages/app/admin'
 import { EmployeePage } from '@/pages/app/employee'
 
 import { AdminDepartmentsPage } from '@/pages/app/admin/subpages/admin-departments-page'
@@ -19,6 +18,7 @@ import { AdminStudentsPage } from '@/pages/app/admin/subpages/admin-student-page
 import { AdminStudentDetailsPage } from '@/pages/app/admin/subpages/admin-student-details-page'
 import { AdminSubjectPage } from '@/pages/app/admin/subpages/admin-subjects-page'
 import { AdminSubjectDetailsPage } from '@/pages/app/admin/subpages/admin-subject-details-page'
+import { AdminPage } from '@/pages/app/admin'
 
 export const router = createBrowserRouter([
   {

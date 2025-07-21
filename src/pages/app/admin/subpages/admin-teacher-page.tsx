@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { findAllTeachersService } from '@/services/teacher/find-all-teacher-service'
-import { TeacherCard } from '../components/teacher-card'
+import { TeacherCard } from '../../components/teacher-card'
 import { CreateTeacherDialog } from '@/components/dialogs/create-teacher-dialog'
 
 export function AdminTeacherPage() {
