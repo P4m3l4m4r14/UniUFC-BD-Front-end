@@ -22,6 +22,7 @@ export function AdminStudentDetailsPage() {
   const { data: student, isPending: isStudentPending } = useQuery({
     queryKey: ['student', studentId],
     queryFn: () => findStudentByCodeService(studentId!),
+    enabled: !!studentId,
   })
 
   const handleDeleteStudent = useCallback(async () => {

@@ -27,6 +27,7 @@ export function AdminSubjectDetailsPage() {
   const { data: subject, isPending: isSubjectPending } = useQuery({
     queryKey: ['subject', subjectId],
     queryFn: () => findSubjectByCodeService(subjectId!),
+    enabled: !!subjectId,
   })
   const { data: enrollments, isPending: isEnrollmentPending } = useQuery({
     queryKey: ['enrollments'],
@@ -71,13 +72,6 @@ export function AdminSubjectDetailsPage() {
                   label="Tipo"
                   value={getSubjectTypeName(subject.typeSubject)}
                 />
-                {/* <SubjectInformationDialog subject={subject}>
-                  <button className="text-accent-foreground bg-accent border-border flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs leading-tight uppercase">
-                    <span>+ info</span>
-
-                    <Info className="size-2.5" />
-                  </button>
-                </SubjectInformationDialog> */}
               </>
             )}
           </div>

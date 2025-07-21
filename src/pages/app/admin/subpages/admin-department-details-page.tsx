@@ -29,8 +29,8 @@ export function AdminDepartmentDetailsPage() {
 
   const { data: employees, isPending: isEmployeePending } = useQuery({
     queryKey: ['department', departmentId, 'employee'],
-    queryFn: () =>
-      findEmployeesByDepartmentCodeService({ code: Number(departmentId) }),
+    queryFn: () => findEmployeesByDepartmentCodeService(departmentId!),
+    enabled: !!departmentId,
   })
 
   const handleDeleteDepartment = useCallback(async () => {

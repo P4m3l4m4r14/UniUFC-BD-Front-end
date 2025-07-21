@@ -20,7 +20,8 @@ export function AdminTeacherDetailsPage() {
 
   const { data: teacher, isPending: isTeacherPending } = useQuery({
     queryKey: ['teacher', teacherId],
-    queryFn: () => findTeacherByCodeService({ code: Number(teacherId) }),
+    queryFn: () => findTeacherByCodeService(teacherId!),
+    enabled: !!teacherId,
   })
 
   const handleDeleteTeacher = useCallback(async () => {

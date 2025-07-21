@@ -23,7 +23,8 @@ export function AdminCourseDetailsPage() {
 
   const { data: course, isPending: isCourseLoading } = useQuery({
     queryKey: ['course', courseId],
-    queryFn: () => findCourseByCodeService({ code: Number(courseId) }),
+    queryFn: () => findCourseByCodeService(courseId!),
+    enabled: !!courseId,
   })
 
   const handleDeleteCourse = useCallback(async () => {
