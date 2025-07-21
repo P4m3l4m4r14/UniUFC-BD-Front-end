@@ -26,7 +26,7 @@ import { useCallback, useState } from 'react'
 import { queryClient } from '@/lib/query-client'
 import { toast } from 'sonner'
 import type { Tag } from 'emblor'
-import { DatePicker } from '../date-picker'
+
 import { TagInput } from '../tag-input'
 import { createPostgraduateStudentService } from '@/services/students/create-postgraduate-student-service'
 
@@ -43,7 +43,7 @@ const createPostgraduateStudentSchema = z.object({
       invalid_type_error: 'Código do orientador deve ser um número',
     })
     .min(1, 'Código do orientador é obrigatório'),
-  admissionYear: z.string().min(1, 'Ano de admissão é obrigatório'),
+
   password: z.string().min(6, 'Senha deve ter pelo menos 6 caracteres'),
   username: z.string().min(1, 'Nome de usuário é obrigatório'),
 })
@@ -64,7 +64,7 @@ export function CreatePostgraduateStudentDialog() {
       address: '',
       courseCode: 0,
       advisorId: 0,
-      admissionYear: '',
+
       password: '',
       username: '',
     },
@@ -76,7 +76,6 @@ export function CreatePostgraduateStudentDialog() {
       address,
       courseCode,
       advisorId,
-      admissionYear,
       password,
       username,
     }: CreatePostgraduateStudentFormData) => {
@@ -91,7 +90,6 @@ export function CreatePostgraduateStudentDialog() {
           address,
           courseCode,
           advisorId,
-          admissionYear,
           password,
           username,
           phones: parsedPhones,
@@ -189,25 +187,10 @@ export function CreatePostgraduateStudentDialog() {
                 />
               </div>
               <div className="flex gap-1">
+      
                 <FormField
                   control={form.control}
-                  name="admissionYear"
-                  render={({ field: { onChange, value, ...rest } }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Ano de Admissão</FormLabel>
-                      <FormControl>
-                        <DatePicker
-                          date={value}
-                          onDateChange={onChange}
-                          {...rest}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
+
                   name="address"
                   render={({ field }) => (
                     <FormItem className="w-full">
