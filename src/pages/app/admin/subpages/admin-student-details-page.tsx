@@ -71,8 +71,8 @@ export function AdminStudentDetailsPage() {
           <AlertDialog
             actionText="Excluir"
             cancelText="Cancelar"
-            title="Excluir professor"
-            description="Você tem certeza que deseja excluir este professor? Esta ação não pode ser desfeita."
+            title="Excluir Estudante"
+            description="Você tem certeza que deseja excluir este estudante? Esta ação não pode ser desfeita."
             onAction={handleDeleteStudent}
           >
             <Button variant="outline">
@@ -90,7 +90,7 @@ export function AdminStudentDetailsPage() {
             <CreateEnrollmentInStudentDialog studentId={student.code} />
           )}
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
           {isStudentPending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <CardSkeleton key={index} />

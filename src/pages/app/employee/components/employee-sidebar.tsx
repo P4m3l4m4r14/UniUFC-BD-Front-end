@@ -2,45 +2,25 @@ import { Logo } from '@/assets/logo'
 import { NavItem, type NavItemType } from '@/components/nav-items'
 import { ModeToggle } from '@/components/theme-toggle'
 import { UserAccountCard } from '@/components/user-account-card'
-import {
-  Album,
-  Blocks,
-  Building2,
-  Contact,
-  GraduationCap,
-  User,
-} from 'lucide-react'
+import { Album, Building2, GraduationCap } from 'lucide-react'
 
 const items: NavItemType[] = [
   {
     label: 'Departamento',
-    href: '/admin/departments',
+    href: '/employee/department',
     icon: <Building2 />,
   },
-  {
-    label: 'Estudantes',
-    href: '/admin/students',
-    icon: <User />,
-  },
+  // Pode ver todos os professores e criar professor (apenas do seu departamento)
   {
     label: 'Professores',
-    href: '/admin/teachers',
+    href: '/employee/teachers',
     icon: <GraduationCap />,
   },
-  {
-    label: 'Empregados',
-    href: '/admin/employees',
-    icon: <Contact />,
-  },
+  // Pode ver todos os cursos e criar curso (apenas do seu departamento)
   {
     label: 'Cursos',
-    href: '/admin/courses',
+    href: '/employee/courses',
     icon: <Album />,
-  },
-  {
-    label: 'Disciplinas',
-    href: '/admin/subjects',
-    icon: <Blocks />,
   },
 ]
 

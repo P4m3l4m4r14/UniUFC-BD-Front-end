@@ -8,11 +8,12 @@ import { findStudentByCodeService } from '@/services/students/find-student-by-co
 import { useQuery } from '@tanstack/react-query'
 import { Copy, Info } from 'lucide-react'
 import { CardSkeleton } from '../components/card-skeleton'
-import { SubjectCard } from '../components/subject-card'
 import { StudentInformationDialog } from '@/components/dialogs/student-information-dialog'
 import { useClipboard } from '@/hooks/use-clipboard'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router'
+import { SubjectStudentCard } from '../components/subject-student-card'
+import { EnrollmentInformationDialog } from '@/components/dialogs/enrollment-information-dialog'
 
 export function StudentPage() {
   const navigate = useNavigate()
@@ -96,11 +97,12 @@ export function StudentPage() {
               ))
             ) : enrollments && enrollments.length > 0 ? (
               enrollments.map((enrollment) => (
-                <SubjectCard
+                <EnrollmentInformationDialog
+                  enrollment={enrollment}
                   key={enrollment.subject.code}
-                  subject={enrollment.subject}
-                  isLinkDisabled
-                />
+                >
+                  <SubjectStudentCard subject={enrollment.subject} />
+                </EnrollmentInformationDialog>
               ))
             ) : (
               <div className="text-muted-foreground w-full">

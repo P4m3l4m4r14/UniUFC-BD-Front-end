@@ -1,19 +1,16 @@
 import type { Subject, SubjectCourse } from '@/types/subjects'
 import { Blocks } from 'lucide-react'
-import { Link } from 'react-router'
+import type { ComponentProps } from 'react'
 
 type SubjectCardProps = {
   subject: Subject | SubjectCourse
-  to?: string
-  isLinkDisabled?: boolean
-}
+} & ComponentProps<'button'>
 
-export function SubjectCard({ subject, to, isLinkDisabled }: SubjectCardProps) {
+export function SubjectStudentCard({ subject, ...rest }: SubjectCardProps) {
   return (
-    <Link
-      to={isLinkDisabled ? '' : to || `${subject.code}`}
+    <button
       className="bg-accent/50 border-border group hover:bg-accent/70 h-fit w-full cursor-pointer overflow-hidden rounded-md border transition-colors data-[link=disabled]:cursor-default"
-      data-link={!isLinkDisabled ? 'enabled' : 'disabled'}
+      {...rest}
     >
       <div className="bg-primary group-hover:bg-primary/90 flex h-12 w-full items-center justify-center transition-colors">
         <Blocks className="text-accent size-6" />
@@ -24,6 +21,6 @@ export function SubjectCard({ subject, to, isLinkDisabled }: SubjectCardProps) {
           {subject.name}
         </strong>
       </div>
-    </Link>
+    </button>
   )
 }

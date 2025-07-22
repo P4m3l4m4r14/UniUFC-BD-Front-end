@@ -3,32 +3,26 @@ import { InfoPill } from '@/components/info-pill'
 import { ModeToggle } from '@/components/theme-toggle'
 import { UserAccountCard } from '@/components/user-account-card'
 import { useUser } from '@/hooks/contexts/use-user'
-import { findEnrollmentsByStudentCodeService } from '@/services/enrollment/find-enrollments-by-student-code-service'
-import { findStudentByCodeService } from '@/services/students/find-student-by-code-service'
-import { useQuery } from '@tanstack/react-query'
 import { Copy, Info } from 'lucide-react'
-import { CardSkeleton } from '../components/card-skeleton'
-import { SubjectCard } from '../components/subject-card'
-import { StudentInformationDialog } from '@/components/dialogs/student-information-dialog'
 import { useClipboard } from '@/hooks/use-clipboard'
+import { useEffect } from 'react'
+import { Outlet, useNavigate } from 'react-router'
+import { TeacherInformationDialog } from '@/components/dialogs/teacher-information-dialog'
 
 export function TeacherPage() {
+  const navigate = useNavigate()
   const { copyToClipboard } = useClipboard()
-  const { user } = useUser()
+  const { verifyTeacherUser, isTeacherLoading, teacher, user } = useUser()
 
-  const { data: student } = useQuery({
-    queryKey: ['student', user?.code],
-    queryFn: () => findStudentByCodeService(user!.code),
-    enabled: !!user?.code,
-    refetchOnWindowFocus: false,
-  })
+  useEffect(() => {
+    verifyTeacherUser()
+  }, [verifyTeacherUser])
 
-  const { data: enrollments, isPending: isEnrollmentsPending } = useQuery({
-    queryKey: ['student', 'enrollments', user?.code],
-    queryFn: () => findEnrollmentsByStudentCodeService(user!.code),
-    enabled: !!user?.code,
-    refetchOnWindowFocus: false,
-  })
+  useEffect(() => {
+    if (!isTeacherLoading && !teacher) {
+      navigate('/entrar')
+    }
+  }, [isTeacherLoading, teacher, navigate])
 
   return (
     <article className="flex w-full max-w-5xl flex-col items-center justify-start pt-12">
@@ -55,42 +49,19 @@ export function TeacherPage() {
                 }
               />
             )}
-            {student && (
-              <StudentInformationDialog student={student}>
+            {teacher && (
+              <TeacherInformationDialog teacher={teacher}>
                 <button className="text-accent-foreground bg-accent border-border flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs leading-tight uppercase">
                   <span>+ info</span>
 
                   <Info className="size-2.5" />
                 </button>
-              </StudentInformationDialog>
+              </TeacherInformationDialog>
             )}
           </div>
         </div>
 
-        <div className="flex w-full flex-col gap-2">
-          <div className="flex w-full items-center justify-between">
-            <h2 className="font-heading text-xl font-semibold">Disciplinas</h2>
-          </div>
-          <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
-            {isEnrollmentsPending ? (
-              Array.from({ length: 4 }).map((_, index) => (
-                <CardSkeleton key={index} />
-              ))
-            ) : enrollments && enrollments.length > 0 ? (
-              enrollments.map((enrollment) => (
-                <SubjectCard
-                  key={enrollment.subject.code}
-                  subject={enrollment.subject}
-                  isLinkDisabled
-                />
-              ))
-            ) : (
-              <div className="text-muted-foreground w-full">
-                Nenhuma disciplina encontrada.
-              </div>
-            )}
-          </div>
-        </div>
+        <Outlet />
       </section>
     </article>
   )

@@ -1,41 +1,22 @@
-import { Button } from '@/components/ui/button'
 import { useQuery } from '@tanstack/react-query'
-import { Copy, Info, Trash } from 'lucide-react'
-import { useNavigate, useParams } from 'react-router'
-import AlertDialog from '@/components/alert-dialog'
+import { Copy, Info } from 'lucide-react'
+import { useParams } from 'react-router'
 import { useClipboard } from '@/hooks/use-clipboard'
 import { findTeacherByCodeService } from '@/services/teacher/find-teacher-by-code-service'
-import { deleteTeacherService } from '@/services/teacher/delete-teacher-service'
-import { useCallback } from 'react'
-import { toast } from 'sonner'
 import { TeacherInformationDialog } from '@/components/dialogs/teacher-information-dialog'
 import { CardSkeleton } from '../../components/card-skeleton'
 import { StudentCard } from '../../components/student-card'
 import { SubjectCard } from '../../components/subject-card'
 
-export function AdminTeacherDetailsPage() {
-  const navigate = useNavigate()
+export function EmployeeTeacherDetailsPage() {
   const { copyToClipboard } = useClipboard()
   const { teacherId } = useParams<{ teacherId: string }>()
 
   const { data: teacher, isPending: isTeacherPending } = useQuery({
-    queryKey: ['teacher', teacherId],
+    queryKey: ['employee', 'teacher', teacherId],
     queryFn: () => findTeacherByCodeService(teacherId!),
     enabled: !!teacherId,
   })
-
-  const handleDeleteTeacher = useCallback(async () => {
-    try {
-      await deleteTeacherService(teacherId!)
-
-      navigate('/admin/teachers')
-
-      toast.success('Professor excluído com sucesso.')
-    } catch (error) {
-      toast.error('Erro ao excluir o professor.')
-      console.error('Error deleting teacher:', error)
-    }
-  }, [teacherId, navigate])
 
   return (
     <>
@@ -65,19 +46,6 @@ export function AdminTeacherDetailsPage() {
             )}
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <AlertDialog
-            actionText="Excluir"
-            cancelText="Cancelar"
-            title="Excluir professor"
-            description="Você tem certeza que deseja excluir este professor? Esta ação não pode ser desfeita."
-            onAction={handleDeleteTeacher}
-          >
-            <Button variant="outline">
-              <Trash className="text-destructive size-4" />
-            </Button>
-          </AlertDialog>
-        </div>
       </div>
       <div className="flex w-full flex-col gap-2">
         <div className="flex w-full items-center justify-between">
@@ -93,7 +61,7 @@ export function AdminTeacherDetailsPage() {
               <StudentCard
                 key={student.code}
                 student={student}
-                to={`/admin/students/${student.code}`}
+                isLinkDisabled
               />
             ))
           ) : (
@@ -117,7 +85,7 @@ export function AdminTeacherDetailsPage() {
               <SubjectCard
                 key={subject.code}
                 subject={subject}
-                to={`/admin/subjects/${subject.code}`}
+                isLinkDisabled
               />
             ))
           ) : (

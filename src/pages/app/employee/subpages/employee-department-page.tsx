@@ -56,11 +56,7 @@ export function EmployeeDepartmentPage() {
             department?.teachers &&
             department.teachers.length > 0 ? (
             department?.teachers.map((teacher) => (
-              <TeacherCard
-                key={teacher.id}
-                teacher={teacher}
-                to={`/admin/teachers/${teacher.id}`}
-              />
+              <TeacherCard key={teacher.id} teacher={teacher} isLinkDisabled />
             ))
           ) : (
             <div className="text-muted-foreground w-full">
@@ -85,11 +81,7 @@ export function EmployeeDepartmentPage() {
             department?.courses &&
             department.courses.length > 0 ? (
             department?.courses.map((course) => (
-              <CourseCard
-                key={course.code}
-                course={course}
-                to={`/admin/courses/${course.code}`}
-              />
+              <CourseCard key={course.code} course={course} isLinkDisabled />
             ))
           ) : (
             <div className="text-muted-foreground w-full">

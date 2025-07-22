@@ -81,8 +81,8 @@ export function AdminSubjectDetailsPage() {
           <AlertDialog
             actionText="Excluir"
             cancelText="Cancelar"
-            title="Excluir professor"
-            description="Você tem certeza que deseja excluir este professor? Esta ação não pode ser desfeita."
+            title="Excluir disciplina"
+            description="Você tem certeza que deseja excluir esta disciplina? Esta ação não pode ser desfeita."
             onAction={handleDeleteSubject}
           >
             <Button variant="outline">
@@ -96,7 +96,7 @@ export function AdminSubjectDetailsPage() {
         <div className="flex w-full items-center justify-between">
           <h2 className="font-heading text-xl font-semibold">Curso</h2>
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
           {subject?.course && <CourseCard course={subject?.course} />}
         </div>
       </div>
@@ -111,7 +111,7 @@ export function AdminSubjectDetailsPage() {
             <CreateEnrollmentInSubjectDialog subjectId={subject.code} />
           )}
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
           {isEnrollmentPending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <CardSkeleton key={index} />
@@ -139,7 +139,7 @@ export function AdminSubjectDetailsPage() {
         <div className="flex w-full items-center justify-between">
           <h2 className="font-heading text-xl font-semibold">Pré-requisitos</h2>
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
           {isSubjectPending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <CardSkeleton key={index} />
@@ -167,7 +167,7 @@ export function AdminSubjectDetailsPage() {
             Disciplinas Dependentes
           </h2>
         </div>
-        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(8rem,18rem))] gap-4">
+        <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
           {isSubjectPending ? (
             Array.from({ length: 4 }).map((_, index) => (
               <CardSkeleton key={index} />

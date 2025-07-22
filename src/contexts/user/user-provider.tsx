@@ -23,6 +23,9 @@ export type UserContextProps = {
   teacher: Teacher | null
   employee: Employee | null
   isUserLoading: boolean
+  isStudentLoading: boolean
+  isTeacherLoading: boolean
+  isEmployeeLoading: boolean
   signIn: (data: SignInServiceRequest) => Promise<AuthUser>
   signOut: () => void
   verifyAdminUser: () => Promise<void>
@@ -33,6 +36,10 @@ export type UserContextProps = {
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const [isUserLoading, setIsUserLoading] = useState(true)
+
+  const [isStudentLoading, setIsStudentLoading] = useState(true)
+  const [isTeacherLoading, setIsTeacherLoading] = useState(true)
+  const [isEmployeeLoading, setIsEmployeeLoading] = useState(true)
   const [user, setUser] = useState<AuthUser | null>(null)
   const [student, setStudent] = useState<Student | null>(null)
   const [teacher, setTeacher] = useState<Teacher | null>(null)
@@ -85,7 +92,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const verifyStudentUser = useCallback(async () => {
     try {
-      setIsUserLoading(true)
+      setIsStudentLoading(true)
       const user = getUserInLocalStorage()
 
       if (!user) {
@@ -103,13 +110,13 @@ export function UserProvider({ children }: { children: ReactNode }) {
       console.error('Erro ao verificar usuário estudante:', error)
       setStudent(null)
     } finally {
-      setIsUserLoading(false)
+      setIsStudentLoading(false)
     }
   }, [])
 
   const verifyTeacherUser = useCallback(async () => {
     try {
-      setIsUserLoading(true)
+      setIsTeacherLoading(true)
       const user = getUserInLocalStorage()
 
       if (!user) {
@@ -127,13 +134,13 @@ export function UserProvider({ children }: { children: ReactNode }) {
       console.error('Erro ao verificar usuário professor:', error)
       setTeacher(null)
     } finally {
-      setIsUserLoading(false)
+      setIsTeacherLoading(false)
     }
   }, [])
 
   const verifyEmployeeUser = useCallback(async () => {
     try {
-      setIsUserLoading(true)
+      setIsEmployeeLoading(true)
       const user = getUserInLocalStorage()
 
       if (!user) {
@@ -151,7 +158,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
       console.error('Erro ao verificar usuário funcionário:', error)
       setEmployee(null)
     } finally {
-      setIsUserLoading(false)
+      setIsEmployeeLoading(false)
     }
   }, [])
 
@@ -168,6 +175,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
       student,
       teacher,
       employee,
+      isStudentLoading,
+      isTeacherLoading,
+      isEmployeeLoading,
       signIn,
       signOut,
       verifyAdminUser,
@@ -181,6 +191,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
       student,
       teacher,
       employee,
+      isStudentLoading,
+      isTeacherLoading,
+      isEmployeeLoading,
       signIn,
       signOut,
       verifyAdminUser,
