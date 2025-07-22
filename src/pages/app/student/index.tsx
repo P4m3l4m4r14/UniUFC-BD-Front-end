@@ -20,7 +20,7 @@ export function StudentPage() {
   const { copyToClipboard } = useClipboard()
   const {
     verifyStudentUser,
-    isUserLoading,
+    isStudentLoading,
     user,
     student: authStudent,
   } = useUser()
@@ -44,10 +44,10 @@ export function StudentPage() {
   }, [verifyStudentUser])
 
   useEffect(() => {
-    if (!isUserLoading && !authStudent) {
+    if (!isStudentLoading && !authStudent) {
       navigate('/entrar')
     }
-  }, [isUserLoading, authStudent, navigate])
+  }, [isStudentLoading, authStudent, navigate])
 
   return (
     <article className="flex w-full max-w-5xl flex-col items-center justify-start pt-12">

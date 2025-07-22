@@ -122,17 +122,25 @@ export function AdminSubjectDetailsPage() {
               <CardSkeleton key={index} />
             ))
           ) : enrollments && enrollments.length > 0 ? (
-            enrollments
-              ?.filter(
-                (enrollment) => enrollment.subject.code === subject?.code,
-              )
-              .map((enrollment) => (
-                <StudentCard
-                  to={`/admin/students/${enrollment.student.code}`}
-                  key={enrollment.student.code}
-                  student={enrollment.student}
-                />
-              ))
+            enrollments?.filter(
+              (enrollment) => enrollment.subject.code === subject?.code,
+            ).length > 0 ? (
+              enrollments
+                ?.filter(
+                  (enrollment) => enrollment.subject.code === subject?.code,
+                )
+                .map((enrollment) => (
+                  <StudentCard
+                    to={`/admin/students/${enrollment.student.code}`}
+                    key={enrollment.student.code}
+                    student={enrollment.student}
+                  />
+                ))
+            ) : (
+              <div className="text-muted-foreground w-full">
+                Nenhum estudante matriculado encontrado.
+              </div>
+            )
           ) : (
             <div className="text-muted-foreground w-full">
               Nenhum estudante matriculado encontrado.

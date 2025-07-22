@@ -4,10 +4,11 @@ import { CourseCard } from '../../components/course-card'
 import { useUser } from '@/hooks/contexts/use-user'
 import { findAllCoursesByDepartmentCodeService } from '@/services/course/find-all-courses-by-department-code'
 import { CreateCourseInDepartmentDialog } from '@/components/dialogs/create-course-in-department'
+import { CardSkeleton } from '../../components/card-skeleton'
 
 export function EmployeeCoursesPage() {
   const { employee } = useUser()
-  const { data: courses } = useQuery({
+  const { data: courses, isLoading: isLoadingCourses } = useQuery({
     queryKey: ['employee', 'courses', employee?.department?.code],
     queryFn: () =>
       findAllCoursesByDepartmentCodeService(employee?.department?.code || ''),
@@ -23,9 +24,19 @@ export function EmployeeCoursesPage() {
         )}
       </div>
       <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
-        {courses?.map((course) => (
-          <CourseCard key={course.code} course={course} />
-        ))}
+        {isLoadingCourses ? (
+          Array.from({ length: 4 }).map((_, index) => (
+            <CardSkeleton key={index} />
+          ))
+        ) : courses && courses.length > 0 ? (
+          courses?.map((course) => (
+            <CourseCard key={course.code} course={course} />
+          ))
+        ) : (
+          <div className="text-muted-foreground w-full">
+            Nenhum curso encontrado.
+          </div>
+        )}
       </div>
     </>
   )

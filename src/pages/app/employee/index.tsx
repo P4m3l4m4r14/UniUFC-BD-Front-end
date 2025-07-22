@@ -5,17 +5,17 @@ import { useEffect } from 'react'
 
 export function EmployeePage() {
   const navigate = useNavigate()
-  const { verifyEmployeeUser, isUserLoading, employee } = useUser()
+  const { verifyEmployeeUser, isEmployeeLoading, employee } = useUser()
 
   useEffect(() => {
     verifyEmployeeUser()
   }, [verifyEmployeeUser])
 
   useEffect(() => {
-    if (!isUserLoading && !employee) {
+    if (!isEmployeeLoading && !employee) {
       navigate('/entrar')
     }
-  }, [isUserLoading, employee, navigate])
+  }, [isEmployeeLoading, employee, navigate])
 
   return (
     <article className="flex h-dvh w-full">
