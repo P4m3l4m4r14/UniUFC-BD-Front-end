@@ -97,7 +97,12 @@ export function AdminSubjectDetailsPage() {
           <h2 className="font-heading text-xl font-semibold">Curso</h2>
         </div>
         <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
-          {subject?.course && <CourseCard course={subject?.course} />}
+          {subject?.course && (
+            <CourseCard
+              course={subject?.course}
+              to={`/admin/courses/${subject?.course.code}`}
+            />
+          )}
         </div>
       </div>
 
